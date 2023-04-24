@@ -1,0 +1,417 @@
+{
+  "id": "75a54d20-dda1-6db7-ff99-59b1af4fdfd3",
+  "prompt": {
+    "text": "These are a few of my favorite",
+    "tokens": [
+      {
+        "generatedToken": {
+          "token": "▁These▁are",
+          "logprob": -8.139219284057617,
+          "raw_logprob": -8.139219284057617
+        },
+        "topTokens": null,
+        "textRange": {
+          "start": 0,
+          "end": 9
+        }
+      },
+      {
+        "generatedToken": {
+          "token": "▁a▁few",
+          "logprob": -4.903847694396973,
+          "raw_logprob": -4.903847694396973
+        },
+        "topTokens": null,
+        "textRange": {
+          "start": 9,
+          "end": 15
+        }
+      },
+      {
+        "generatedToken": {
+          "token": "▁of▁my▁favorite",
+          "logprob": -1.543039321899414,
+          "raw_logprob": -1.543039321899414
+        },
+        "topTokens": null,
+        "textRange": {
+          "start": 15,
+          "end": 30
+        }
+      }
+    ]
+  },
+  "completions": [
+    {
+      "data": {
+        "text": " things!\n\nI love entertaining, entertaining and decorating my home, entertaining clients, entertaining friends, entertaining family...you get the point! One of my favorite things to do is plan parties",
+        "tokens": [
+          {
+            "generatedToken": {
+              "token": "▁things",
+              "logprob": -0.012797726318240166,
+              "raw_logprob": -0.24019983410835266
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 0,
+              "end": 7
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "!",
+              "logprob": -2.060641050338745,
+              "raw_logprob": -2.189206600189209
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 7,
+              "end": 8
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "<|newline|>",
+              "logprob": -0.8403825759887695,
+              "raw_logprob": -2.1910078525543213
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 8,
+              "end": 9
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "<|newline|>",
+              "logprob": -0.1456860452890396,
+              "raw_logprob": -0.9437531232833862
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 9,
+              "end": 10
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁I▁love",
+              "logprob": -4.374380588531494,
+              "raw_logprob": -4.643549919128418
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 10,
+              "end": 16
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁entertaining",
+              "logprob": -8.783716201782227,
+              "raw_logprob": -8.083599090576172
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 16,
+              "end": 29
+            }
+          },
+          {
+            "generatedToken": {
+              "token": ",",
+              "logprob": -1.0627485513687134,
+              "raw_logprob": -1.545505404472351
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 29,
+              "end": 30
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁entertaining",
+              "logprob": -4.874294757843018,
+              "raw_logprob": -4.618663787841797
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 30,
+              "end": 43
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁and",
+              "logprob": -3.167405605316162,
+              "raw_logprob": -3.570988655090332
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 43,
+              "end": 47
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁decorating",
+              "logprob": -1.648970127105713,
+              "raw_logprob": -2.582613706588745
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 47,
+              "end": 58
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁my▁home",
+              "logprob": -2.5026865005493164,
+              "raw_logprob": -2.6586031913757324
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 58,
+              "end": 66
+            }
+          },
+          {
+            "generatedToken": {
+              "token": ",",
+              "logprob": -0.7689361572265625,
+              "raw_logprob": -1.2174654006958008
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 66,
+              "end": 67
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁entertaining",
+              "logprob": -1.2487196922302246,
+              "raw_logprob": -2.0927321910858154
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 67,
+              "end": 80
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁clients",
+              "logprob": -8.5693359375,
+              "raw_logprob": -7.141331672668457
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 80,
+              "end": 88
+            }
+          },
+          {
+            "generatedToken": {
+              "token": ",",
+              "logprob": -0.1822780817747116,
+              "raw_logprob": -0.6432795524597168
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 88,
+              "end": 89
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁entertaining",
+              "logprob": -0.5468096137046814,
+              "raw_logprob": -1.3048734664916992
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 89,
+              "end": 102
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁friends",
+              "logprob": -0.9710591435432434,
+              "raw_logprob": -1.7686699628829956
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 102,
+              "end": 110
+            }
+          },
+          {
+            "generatedToken": {
+              "token": ",",
+              "logprob": -0.14025729894638062,
+              "raw_logprob": -0.4739122986793518
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 110,
+              "end": 111
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁entertaining",
+              "logprob": -0.2804214358329773,
+              "raw_logprob": -0.8527922034263611
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 111,
+              "end": 124
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁family",
+              "logprob": -1.0800895690917969,
+              "raw_logprob": -1.927623987197876
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 124,
+              "end": 131
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "...",
+              "logprob": -2.514098644256592,
+              "raw_logprob": -2.373312473297119
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 131,
+              "end": 134
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "you",
+              "logprob": -1.0778509378433228,
+              "raw_logprob": -1.99626624584198
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 134,
+              "end": 137
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁get",
+              "logprob": -0.03242425248026848,
+              "raw_logprob": -0.1461254507303238
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 137,
+              "end": 141
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁the▁point",
+              "logprob": -2.4119038581848145,
+              "raw_logprob": -2.0218327045440674
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 141,
+              "end": 151
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "!",
+              "logprob": -1.4457058906555176,
+              "raw_logprob": -1.3022156953811646
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 151,
+              "end": 152
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁One▁of▁my▁favorite",
+              "logprob": -5.320619583129883,
+              "raw_logprob": -5.056370258331299
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 152,
+              "end": 171
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁things▁to▁do",
+              "logprob": -0.678179919719696,
+              "raw_logprob": -1.1683768033981323
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 171,
+              "end": 184
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁is",
+              "logprob": -0.08321860432624817,
+              "raw_logprob": -0.5311100482940674
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 184,
+              "end": 187
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁plan",
+              "logprob": -2.2561252117156982,
+              "raw_logprob": -3.04398512840271
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 187,
+              "end": 192
+            }
+          },
+          {
+            "generatedToken": {
+              "token": "▁parties",
+              "logprob": -2.2673985958099365,
+              "raw_logprob": -2.537139892578125
+            },
+            "topTokens": null,
+            "textRange": {
+              "start": 192,
+              "end": 200
+            }
+          }
+        ]
+      },
+      "finishReason": {
+        "reason": "length",
+        "length": 30
+      }
+    }
+  ]
+}

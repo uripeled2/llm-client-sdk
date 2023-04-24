@@ -1,0 +1,26 @@
+{
+  "text": "These are a few of my favorite",
+  "tokens": [
+    {
+      "token": "▁These▁are",
+      "textRange": {
+        "start": 0,
+        "end": 9
+      }
+    },
+    {
+      "token": "▁a▁few",
+      "textRange": {
+        "start": 9,
+        "end": 15
+      }
+    },
+    {
+      "token": "▁of▁my▁favorite",
+      "textRange": {
+        "start": 15,
+        "end": 30
+      }
+    }
+  ]
+}
