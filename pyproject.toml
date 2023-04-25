@@ -1,0 +1,57 @@
+[project]
+name = "llm-client-sdk"
+description = "SDK for using LLM"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+    { name = "Uri Peled", email = "uripeled2@gmail.com" },
+]
+classifiers = [
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = []
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/uripeled2/llm-client-sdk"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-aiohttp",
+    "pytest-asyncio",
+    "pytest-mock",
+    "aioresponses"
+]
+ai21 = [
+    "aiohttp >=3.0.0,<4.0.0"
+]
+openai = [
+    "openai >=0.27.4",
+    "tiktoken >=0.3.3"
+]
+
+[tool.hatch.version]
+path = "llm_client/__init__.py"
+
+[tool.pytest.ini_options]
+addopts = [
+  "--strict-config",
+  "--strict-markers",
+]
+xfail_strict = true
+
+[tool.coverage.run]
+parallel = true
+source = [
+    "tests",
+    "llm_client"
+]
+context = '${CONTEXT}'
