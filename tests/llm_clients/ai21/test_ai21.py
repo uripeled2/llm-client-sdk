@@ -1,7 +1,7 @@
 import pytest
 
-from LLMClient.consts import MODEL_KEY
-from LLMClient.llm_clients.ai21 import COMPLETE_PATH, BASE_URL, DATA_KEY, TEXT_KEY, TOKENIZE_PATH
+from llm_client.consts import MODEL_KEY
+from llm_client.llm_client.ai21 import COMPLETE_PATH, BASE_URL, DATA_KEY, TEXT_KEY, TOKENIZE_PATH
 from tests.test_utils.load_json_resource import load_json_resource
 
 

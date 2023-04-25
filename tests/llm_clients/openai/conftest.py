@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 import openai
 import pytest
 
-from LLMClient.llm_clients.openai_client import OpenAIClient
+from llm_client.llm_client.openai_client import OpenAIClient
 
 
 @pytest.fixture

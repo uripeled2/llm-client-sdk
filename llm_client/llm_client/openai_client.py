@@ -4,8 +4,8 @@ import openai
 import tiktoken
 from tiktoken import Encoding
 
-from LLMClient.consts import MODEL_KEY, PROMPT_KEY
-from LLMClient.llm_client_interface import LLMClientInterface
+from llm_client.consts import MODEL_KEY, PROMPT_KEY
+from llm_client.llm_client_interface import LLMClientInterface
 
 
 class OpenAIClient(LLMClientInterface):

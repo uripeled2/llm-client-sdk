@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from LLMClient.consts import MODEL_KEY
+from llm_client.consts import MODEL_KEY
 
 
 class LLMClientInterface(ABC):

@@ -89,7 +89,7 @@ async def test_chat_completion__override_model(openai_mock, open_ai_client, mode
 
 @pytest.mark.asyncio
 async def test_get_tokens_count__sanity(model_name, open_ai_client):
-    with patch("LLMClient.llm_clients.openai_client.tiktoken") as tiktoken_mock:
+    with patch("llm_client.llm_client.openai_client.tiktoken") as tiktoken_mock:
         tokeniser_mock = tiktoken_mock.encoding_for_model.return_value
         tokeniser_mock.encode.return_value = [123, 456]
         text = "This is a test"
@@ -103,7 +103,7 @@ async def test_get_tokens_count__sanity(model_name, open_ai_client):
 
 @pytest.mark.asyncio
 async def test_get_tokens_count__override_model(open_ai_client):
-    with patch("LLMClient.llm_clients.openai_client.tiktoken") as tiktoken_mock:
+    with patch("llm_client.llm_client.openai_client.tiktoken") as tiktoken_mock:
         tokeniser_mock = tiktoken_mock.encoding_for_model.return_value
         tokeniser_mock.encode.return_value = [123, 456]
         text = "This is a test"

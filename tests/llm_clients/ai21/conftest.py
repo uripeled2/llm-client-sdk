@@ -2,7 +2,7 @@ import pytest
 from aiohttp import BasicAuth, ClientSession
 from aioresponses import aioresponses
 
-from LLMClient.llm_clients.ai21 import AI21Client, COMPLETE_PATH, BASE_URL
+from llm_client.llm_client.ai21 import AI21Client, COMPLETE_PATH, BASE_URL
 
 
 @pytest.fixture
