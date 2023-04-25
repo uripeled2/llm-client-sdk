@@ -41,13 +41,6 @@ openai = [
 [tool.hatch.version]
 path = "llm_client/__init__.py"
 
-[tool.pytest.ini_options]
-addopts = [
-  "--strict-config",
-  "--strict-markers",
-]
-xfail_strict = true
-
 [tool.coverage.run]
 parallel = true
 source = [
