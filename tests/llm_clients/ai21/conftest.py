@@ -1,4 +1,7 @@
+from unittest.mock import MagicMock, AsyncMock
+
 import pytest
+import pytest_asyncio
 from aiohttp import BasicAuth, ClientSession
 from aioresponses import aioresponses
 
@@ -11,11 +14,11 @@ def mock_aioresponse():
         yield m
 
 
-@pytest.fixture
-def client_session():
+@pytest_asyncio.fixture
+async def client_session():
     session = ClientSession()
     yield session
-    session.close()
+    await session.close()
 
 
 @pytest.fixture
