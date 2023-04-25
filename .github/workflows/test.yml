@@ -22,6 +22,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
-      run: pip install -e .[ai21, openai, test]
+      run: pip install -e .[ai21,openai,test]
     - name: Test with pytest
       run: pytest tests/llm_clients/${{ matrix.flavor }}
