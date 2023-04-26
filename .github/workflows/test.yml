@@ -1,0 +1,32 @@
+name: Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11"]
+        flavor: [all, openai, ai21]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: pip install -e .[${{ matrix.flavor }},test]
+    - name: Test with pytest
+      run: |
+        if [ "${{ matrix.flavor }}" = "all" ]; then
+          pytest tests
+        else
+          pytest tests/llm_clients/${{ matrix.flavor }}
+        fi

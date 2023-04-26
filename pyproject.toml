@@ -1,8 +1,12 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "llm-client-sdk"
 description = "SDK for using LLM"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "MIT"
 authors = [
     { name = "Uri Peled", email = "uripeled2@gmail.com" },
@@ -12,7 +16,6 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
@@ -36,6 +39,9 @@ ai21 = [
 openai = [
     "openai >=0.27.4",
     "tiktoken >=0.3.3"
+]
+all = [
+    "llm-client-sdk[openai,ai21]"
 ]
 
 [tool.hatch.version]
