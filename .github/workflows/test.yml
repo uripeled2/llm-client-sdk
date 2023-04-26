@@ -27,9 +27,11 @@ jobs:
           pip install -e .
         else
           pip install -e .[${{ matrix.flavor }},test]
+        fi
     - name: Test with pytest
       run: |
         if [ "${{ matrix.flavor }}" = "all" ]; then
           pytest tests
         else
           pytest tests/llm_clients/${{ matrix.flavor }}
+        fi
