@@ -5,12 +5,12 @@ from typing import Type
 import openai
 from aiohttp import ClientSession
 
-from llm_client import LLMClientInterface, OpenAIClient, AI21Client
+from llm_client import BaseLLMClient, OpenAIClient, AI21Client
 
 
 @dataclass
 class LLMClientConfig:
-    client: Type[LLMClientInterface]
+    client: Type[BaseLLMClient]
     kwargs: dict[str, str] = None
 
 
@@ -34,11 +34,11 @@ def _get_ai21_config() -> LLMClientConfig:
     )
 
 
-def _get_llm_client_from_config(config: LLMClientConfig) -> LLMClientInterface:
+def _get_llm_client_from_config(config: LLMClientConfig) -> BaseLLMClient:
     return config.client(**config.kwargs)
 
 
-def get_llm_client() -> LLMClientInterface:
+def get_llm_client() -> BaseLLMClient:
     if os.getenv("LLM_CLIENT") == "openai":
         print("Using OpenAI client")
         return _get_llm_client_from_config(_get_openai_config())

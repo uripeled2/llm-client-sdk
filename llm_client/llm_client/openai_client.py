@@ -5,10 +5,10 @@ import tiktoken
 from tiktoken import Encoding
 
 from llm_client.consts import PROMPT_KEY
-from llm_client.llm_client_interface import LLMClientInterface
+from llm_client.base_llm_client import BaseLLMClient
 
 
-class OpenAIClient(LLMClientInterface):
+class OpenAIClient(BaseLLMClient):
     def __init__(self, client: openai, default_model: str | None = None):
         super().__init__(default_model)
         self._client = client

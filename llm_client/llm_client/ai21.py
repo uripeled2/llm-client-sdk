@@ -1,7 +1,7 @@
 from aiohttp import ClientSession
 
 from llm_client.consts import PROMPT_KEY
-from llm_client.llm_client_interface import LLMClientInterface
+from llm_client.base_llm_client import BaseLLMClient
 
 
 COMPLETE_PATH = "complete"
@@ -15,7 +15,7 @@ AUTH_HEADER = "Authorization"
 BEARER_TOKEN = "Bearer "
 
 
-class AI21Client(LLMClientInterface):
+class AI21Client(BaseLLMClient):
 
     def __init__(self, api_key: str, session: ClientSession, default_model: str | None = None,
                  base_url: str = BASE_URL):
