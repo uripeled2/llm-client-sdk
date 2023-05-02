@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from llm_client.consts import MODEL_KEY
 
 
-class LLMClientInterface(ABC):
+class BaseLLMClient(ABC):
     def __init__(self, default_model: str | None = None):
         self._default_model = default_model
 

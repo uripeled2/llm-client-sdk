@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "llm-client-sdk"
+name = "llm-client"
 description = "SDK for using LLM"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -41,7 +41,7 @@ openai = [
     "tiktoken >=0.3.3"
 ]
 all = [
-    "llm-client-sdk[openai,ai21]"
+    "llm-client[openai,ai21]"
 ]
 
 [tool.hatch.version]

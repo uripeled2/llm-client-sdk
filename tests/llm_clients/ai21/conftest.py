@@ -28,9 +28,13 @@ def model_name():
 
 @pytest.fixture
 def llm_client(client_session, model_name):
-    return AI21Client(BasicAuth("username", "password"), client_session, model_name)
+    return AI21Client("top-secret-api-key", client_session, model_name)
 
 
 @pytest.fixture
-def url(llm_client, model_name):
-    return BASE_URL + model_name + COMPLETE_PATH
+def url(model_name):
+    return build_url(model_name)
+
+
+def build_url(model: str) -> str:
+    return BASE_URL + model + "/" + COMPLETE_PATH
