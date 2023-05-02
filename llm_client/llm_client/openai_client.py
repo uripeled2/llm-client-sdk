@@ -4,7 +4,7 @@ import openai
 import tiktoken
 from tiktoken import Encoding
 
-from llm_client.consts import MODEL_KEY, PROMPT_KEY
+from llm_client.consts import PROMPT_KEY
 from llm_client.llm_client_interface import LLMClientInterface
 
 
