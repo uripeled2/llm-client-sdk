@@ -39,7 +39,8 @@ ai21 = [
 openai = [
     "aiohttp >=3.0.0,<4.0.0",
     "openai >=0.27.4",
-    "tiktoken >=0.3.3"
+    "tiktoken >=0.3.3",
+    "dataclasses_json >= 0.5.0"
 ]
 local = [
     "transformers >= 4.0.0"
