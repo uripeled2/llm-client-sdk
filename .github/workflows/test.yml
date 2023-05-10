@@ -25,10 +25,14 @@ jobs:
       run: pip install -e .[${{ matrix.flavor }},test]
     - name: Test with pytest
       run: |
-        if [ "${{ matrix.flavor }}" = "all" ]; then
-          pytest tests
-        elif [ "${{ matrix.flavor }}" = "local" ]; then
+        case "${{ matrix.flavor }}" in
+          all)
+            pytest tests
+            ;;
+          local)
             pytest tests/llm_client/local_client
-        else
-          pytest tests/llm_api_client/${{ matrix.flavor }_client
-        fi
+            ;;
+          *)
+            pytest tests/llm_api_client/${{ matrix.flavor }}_client
+            ;;
+        esac
