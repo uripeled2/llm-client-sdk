@@ -1,9 +1,8 @@
 import pytest
 
-from llm_client.consts import MODEL_KEY
-from llm_client.llm_client.ai21 import COMPLETE_PATH, BASE_URL, DATA_KEY, TEXT_KEY, TOKENIZE_PATH, AUTH_HEADER, \
+from llm_client.llm_api_client.ai21_client import BASE_URL, DATA_KEY, TEXT_KEY, TOKENIZE_PATH, AUTH_HEADER, \
     BEARER_TOKEN
-from tests.llm_clients.ai21.conftest import build_url
+from tests.llm_api_client.ai21_client.conftest import build_url
 from tests.test_utils.load_json_resource import load_json_resource
 
 
@@ -66,6 +65,24 @@ async def test_text_completion__override_model(mock_aioresponse, client_session,
 
 
 @pytest.mark.asyncio
+async def test_text_completion__with_kwargs(mock_aioresponse, client_session, llm_client, model_name, url):
+    mock_aioresponse.post(
+        url,
+        payload=load_json_resource("ai21/text_completion.json")
+    )
+
+    actual = await llm_client.text_completion(prompt="These are a few of my favorite", max_tokens=10)
+
+    assert actual == [
+        ' things!\n\nI love entertaining, entertaining and decorating my home, entertaining clients, entertaining '
+        'friends, entertaining family...you get the point! One of my favorite things to do is plan parties']
+    mock_aioresponse.assert_called_once_with(url, method='POST',
+                                             headers={AUTH_HEADER: BEARER_TOKEN + llm_client._api_key},
+                                             json={'prompt': 'These are a few of my favorite', 'max_tokens': 10},
+                                             raise_for_status=True)
+
+
+@pytest.mark.asyncio
 async def test_get_tokens_count__sanity(mock_aioresponse, client_session, llm_client, model_name, url):
     mock_aioresponse.post(
         BASE_URL + TOKENIZE_PATH,
@@ -75,9 +92,3 @@ async def test_get_tokens_count__sanity(mock_aioresponse, client_session, llm_cl
     actual = await llm_client.get_tokens_count(text="These are a few of my favorite things!")
 
     assert actual == 3
-
-
-@pytest.mark.asyncio
-async def test_chat_completion__raise_not_implemented_error(llm_client):
-    with pytest.raises(NotImplementedError):
-        await llm_client.chat_completion(prompt="These are a few of my favorite")

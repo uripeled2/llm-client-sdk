@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.10", "3.11"]
-        flavor: [all, openai, ai21]
+        flavor: [all, openai, ai21, local]
 
     steps:
     - uses: actions/checkout@v3
@@ -25,8 +25,14 @@ jobs:
       run: pip install -e .[${{ matrix.flavor }},test]
     - name: Test with pytest
       run: |
-        if [ "${{ matrix.flavor }}" = "all" ]; then
-          pytest tests
-        else
-          pytest tests/llm_clients/${{ matrix.flavor }}
-        fi
+        case "${{ matrix.flavor }}" in
+          all)
+            pytest tests
+            ;;
+          local)
+            pytest tests/llm_client/local_client
+            ;;
+          *)
+            pytest tests/llm_api_client/${{ matrix.flavor }}_client
+            ;;
+        esac
