@@ -8,7 +8,7 @@ from llm_client.llm_client.local_client import LocalClient
 
 @pytest.fixture
 def mock_model():
-    return MagicMock(PreTrainedModel)
+    return MagicMock()
 
 
 @pytest.fixture
