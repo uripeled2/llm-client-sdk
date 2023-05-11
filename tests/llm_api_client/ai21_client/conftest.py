@@ -26,8 +26,13 @@ def model_name():
 
 
 @pytest.fixture
-def llm_client(client_session, model_name):
-    return AI21Client(LLMAPIClientConfig("top-secret-api-key", client_session, default_model=model_name))
+def config(client_session, model_name):
+    return LLMAPIClientConfig("top-secret-api-key", client_session, default_model=model_name)
+
+
+@pytest.fixture
+def llm_client(config):
+    return AI21Client(config)
 
 
 @pytest.fixture

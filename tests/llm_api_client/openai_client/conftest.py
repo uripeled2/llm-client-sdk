@@ -27,8 +27,13 @@ def openai_mock():
 
 
 @pytest.fixture
-def open_ai_client(model_name):
-    return OpenAIClient(LLMAPIClientConfig("fake-api-key", MagicMock(ClientSession), default_model=model_name))
+def config(model_name):
+    return LLMAPIClientConfig("fake-api-key", MagicMock(ClientSession), default_model=model_name)
+
+
+@pytest.fixture
+def open_ai_client(config):
+    return OpenAIClient(config)
 
 
 @pytest.fixture
