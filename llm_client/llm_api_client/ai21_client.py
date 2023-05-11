@@ -1,6 +1,4 @@
-from aiohttp import ClientSession
-
-from llm_client.base_llm_api_client import BaseLLMAPIClient
+from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
 from llm_client.consts import PROMPT_KEY
 
 
@@ -16,9 +14,10 @@ BEARER_TOKEN = "Bearer "
 
 
 class AI21Client(BaseLLMAPIClient):
-    def __init__(self, api_key: str, session: ClientSession, base_url: str | None = None,
-                 default_model: str | None = None, **headers):
-        super().__init__(api_key, session, base_url or BASE_URL, default_model, **headers)
+    def __init__(self, config: LLMAPIClientConfig):
+        super().__init__(config)
+        if self._base_url is None:
+            self._base_url = BASE_URL
         self._headers[AUTH_HEADER] = BEARER_TOKEN + self._api_key
 
     async def text_completion(self, prompt: str, model: str | None = None, **kwargs) -> list[str]:

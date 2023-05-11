@@ -1,13 +1,20 @@
 import pytest
 
+from llm_client import LLMAPIClientType, get_llm_api_client
 from llm_client.llm_api_client.ai21_client import BASE_URL, DATA_KEY, TEXT_KEY, TOKENIZE_PATH, AUTH_HEADER, \
-    BEARER_TOKEN
+    BEARER_TOKEN, AI21Client
 from tests.llm_api_client.ai21_client.conftest import build_url
 from tests.test_utils.load_json_resource import load_json_resource
 
 
+def test_get_llm_api_client__with_ai21(config):
+    actual = get_llm_api_client(LLMAPIClientType.AI21, config)
+
+    assert isinstance(actual, AI21Client)
+
+
 @pytest.mark.asyncio
-async def test_text_completion__sanity(mock_aioresponse, client_session, llm_client, model_name, url):
+async def test_text_completion__sanity(mock_aioresponse, llm_client, url):
     mock_aioresponse.post(
         url,
         payload=load_json_resource("ai21/text_completion.json")
@@ -25,8 +32,7 @@ async def test_text_completion__sanity(mock_aioresponse, client_session, llm_cli
 
 
 @pytest.mark.asyncio
-async def test_text_completion__return_multiple_completions(mock_aioresponse, client_session, llm_client, model_name,
-                                                            url):
+async def test_text_completion__return_multiple_completions(mock_aioresponse, llm_client, url):
     payload = load_json_resource("ai21/text_completion.json")
     payload["completions"].append({DATA_KEY: {TEXT_KEY: "second completion"}})
     mock_aioresponse.post(url, payload=payload)
@@ -45,7 +51,7 @@ async def test_text_completion__return_multiple_completions(mock_aioresponse, cl
 
 
 @pytest.mark.asyncio
-async def test_text_completion__override_model(mock_aioresponse, client_session, llm_client):
+async def test_text_completion__override_model(mock_aioresponse, llm_client):
     new_model_name = "gpt3"
     url = build_url(new_model_name)
     mock_aioresponse.post(
@@ -65,7 +71,7 @@ async def test_text_completion__override_model(mock_aioresponse, client_session,
 
 
 @pytest.mark.asyncio
-async def test_text_completion__with_kwargs(mock_aioresponse, client_session, llm_client, model_name, url):
+async def test_text_completion__with_kwargs(mock_aioresponse, llm_client, url):
     mock_aioresponse.post(
         url,
         payload=load_json_resource("ai21/text_completion.json")
@@ -83,7 +89,7 @@ async def test_text_completion__with_kwargs(mock_aioresponse, client_session, ll
 
 
 @pytest.mark.asyncio
-async def test_get_tokens_count__sanity(mock_aioresponse, client_session, llm_client, model_name, url):
+async def test_get_tokens_count__sanity(mock_aioresponse, llm_client, url):
     mock_aioresponse.post(
         BASE_URL + TOKENIZE_PATH,
         payload=load_json_resource("ai21/tokenize.json")

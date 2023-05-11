@@ -2,7 +2,7 @@ from unittest.mock import call
 
 import pytest
 
-from llm_client.llm_client.local_client import LocalClient
+from llm_client.llm_client.local_client import LocalClient, LocalClientConfig
 
 
 @pytest.mark.asyncio
@@ -57,7 +57,7 @@ async def test_text_completion__with_encode_kwargs(mock_model, mock_tokenizer, t
     mock_model.generate.return_value = [1]
     mock_tokenizer.decode.return_value = "first completion"
     encode_kwargs = {"add_special_tokens": False}
-    local_client = LocalClient(mock_model, mock_tokenizer, tensors_type, device, encode_kwargs)
+    local_client = LocalClient(LocalClientConfig(mock_model, mock_tokenizer, tensors_type, device, encode_kwargs))
 
     actual = await local_client.text_completion(prompt="These are a few of my favorite")
 
@@ -84,7 +84,7 @@ async def test_get_tokens_count__sanity(local_client, mock_tokenizer, tensors_ty
 async def test_get_tokens_count__with_kwargs(mock_model, mock_tokenizer, tensors_type, device):
     mock_tokenizer.encode.return_value.to.return_value = [1, 2, 3]
     encode_kwargs = {"add_special_tokens": False}
-    local_client = LocalClient(mock_model, mock_tokenizer, tensors_type, device, encode_kwargs)
+    local_client = LocalClient(LocalClientConfig(mock_model, mock_tokenizer, tensors_type, device, encode_kwargs))
 
     actual = await local_client.get_tokens_count(text="This is a test")
 

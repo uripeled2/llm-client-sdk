@@ -1,9 +1,9 @@
 from unittest.mock import MagicMock
 
 import pytest
-from transformers import PreTrainedModel, PreTrainedTokenizerBase
+from transformers import PreTrainedTokenizerBase
 
-from llm_client.llm_client.local_client import LocalClient
+from llm_client import LocalClientConfig, LocalClient
 
 
 @pytest.fixture
@@ -28,4 +28,4 @@ def device():
 
 @pytest.fixture
 def local_client(mock_model, mock_tokenizer, tensors_type, device):
-    return LocalClient(mock_model, mock_tokenizer, tensors_type, device)
+    return LocalClient(LocalClientConfig(mock_model, mock_tokenizer, tensors_type, device))
