@@ -1,22 +1,31 @@
-from typing import Any, Optional
+from dataclasses import dataclass, field
+from typing import Any
 
 from transformers import PreTrainedModel, PreTrainedTokenizerBase
 
 from llm_client import BaseLLMClient
 
 
-class LocalClient(BaseLLMClient):
-    def __init__(self, model: PreTrainedModel, tokenizer: PreTrainedTokenizerBase,
-                 tensors_type: str, device: str, encode_kwargs: Optional[dict[str, Any]] = None):
-        if not model.can_generate():
-            raise TypeError(f"{model} is not a text generation model")
+@dataclass
+class LocalClientConfig:
+    model: PreTrainedModel
+    tokenizer: PreTrainedTokenizerBase
+    tensors_type: str
+    device: str
+    encode_kwargs: dict[str, Any] = field(default_factory=dict)
 
-        self._model: PreTrainedModel = model
-        self._tokenizer: PreTrainedTokenizerBase = tokenizer
-        self._tensors_type: str = tensors_type
-        self._device: str = device
-        self._encode_kwargs: dict[str, Any] = encode_kwargs or {}
-        self._encode_kwargs["return_tensors"] = tensors_type
+
+class LocalClient(BaseLLMClient):
+    def __init__(self, llm_client_config: LocalClientConfig):
+        if not llm_client_config.model.can_generate():
+            raise TypeError(f"{llm_client_config.model} is not a text generation model")
+
+        self._model: PreTrainedModel = llm_client_config.model
+        self._tokenizer: PreTrainedTokenizerBase = llm_client_config.tokenizer
+        self._tensors_type: str = llm_client_config.tensors_type
+        self._device: str = llm_client_config.device
+        self._encode_kwargs: dict[str, Any] = llm_client_config.encode_kwargs
+        self._encode_kwargs["return_tensors"] = llm_client_config.tensors_type
 
     async def text_completion(self, prompt: str, **kwargs) -> list[str]:
         input_ids = self._encode(prompt)

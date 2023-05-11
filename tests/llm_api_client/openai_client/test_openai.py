@@ -5,12 +5,13 @@ from aiohttp import ClientSession
 from openai.openai_object import OpenAIObject
 
 from llm_client import OpenAIClient
+from llm_client.llm_api_client.base_llm_api_client import LLMAPIClientConfig
 from llm_client.llm_api_client.openai_client import ChatMessage, Role
 from tests.test_utils.load_json_resource import load_json_resource
 
 
 def test_init__sanity(openai_mock, client_session):
-    OpenAIClient("fake_api_key", client_session)
+    OpenAIClient(LLMAPIClientConfig("fake_api_key", client_session))
 
     assert openai_mock.api_key == "fake_api_key"
     openai_mock.aiosession.set.assert_called_once()
@@ -78,8 +79,8 @@ async def test_text_completion__with_kwargs(openai_mock, open_ai_client, model_n
 async def test_text_completion__with_headers(openai_mock, model_name):
     openai_mock.Completion.acreate = AsyncMock(
         return_value=OpenAIObject.construct_from(load_json_resource("openai/text_completion.json")))
-    open_ai_client = OpenAIClient("fake_api_key", MagicMock(ClientSession), default_model=model_name,
-                                  header_name="header_value")
+    open_ai_client = OpenAIClient(LLMAPIClientConfig("fake_api_key", MagicMock(ClientSession), default_model=model_name,
+                                  headers={"header_name": "header_value"}))
 
     actual = await open_ai_client.text_completion(prompt="These are a few of my favorite")
 
@@ -153,8 +154,8 @@ async def test_chat_completion__with_kwargs(openai_mock, open_ai_client, model_n
 async def test_chat_completion__with_headers(openai_mock, model_name):
     openai_mock.ChatCompletion.acreate = AsyncMock(
         return_value=OpenAIObject.construct_from(load_json_resource("openai/chat_completion.json")))
-    open_ai_client = OpenAIClient("fake_api_key", MagicMock(ClientSession), default_model=model_name,
-                                  header_name="header_value")
+    open_ai_client = OpenAIClient(LLMAPIClientConfig("fake_api_key", MagicMock(ClientSession), default_model=model_name,
+                                  headers={"header_name": "header_value"}))
 
     actual = await open_ai_client.chat_completion([ChatMessage(Role.USER, "Hello!")])
 

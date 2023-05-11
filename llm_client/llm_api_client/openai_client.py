@@ -4,11 +4,10 @@ from functools import lru_cache
 
 import openai
 import tiktoken
-from aiohttp import ClientSession
 from dataclasses_json import dataclass_json, config
 from tiktoken import Encoding
 
-from llm_client.base_llm_api_client import BaseLLMAPIClient
+from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
 from llm_client.consts import PROMPT_KEY
 
 
@@ -27,11 +26,10 @@ class ChatMessage:
 
 
 class OpenAIClient(BaseLLMAPIClient):
-    def __init__(self, api_key: str, session: ClientSession, base_url: str | None = None,
-                 default_model: str | None = None, **headers):
-        super().__init__(api_key, session, base_url, default_model, **headers)
-        openai.api_key = api_key
-        openai.aiosession.set(session)
+    def __init__(self, config: LLMAPIClientConfig):
+        super().__init__(config)
+        openai.api_key = self._api_key
+        openai.aiosession.set(self._session)
         self._client = openai
 
     async def text_completion(self, prompt: str, model: str | None = None, **kwargs) -> list[str]:

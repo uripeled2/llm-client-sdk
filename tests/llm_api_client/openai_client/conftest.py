@@ -4,6 +4,7 @@ import pytest
 import pytest_asyncio
 from aiohttp import ClientSession
 
+from llm_client.llm_api_client.base_llm_api_client import LLMAPIClientConfig
 from llm_client.llm_api_client.openai_client import OpenAIClient
 
 
@@ -27,7 +28,7 @@ def openai_mock():
 
 @pytest.fixture
 def open_ai_client(model_name):
-    return OpenAIClient("fake-api-key", MagicMock(ClientSession), default_model=model_name)
+    return OpenAIClient(LLMAPIClientConfig("fake-api-key", MagicMock(ClientSession), default_model=model_name))
 
 
 @pytest.fixture
