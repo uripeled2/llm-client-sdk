@@ -1,7 +1,11 @@
 from dataclasses import dataclass, field
 from typing import Any
 
-from transformers import PreTrainedModel, PreTrainedTokenizerBase
+try:
+    from transformers import PreTrainedModel, PreTrainedTokenizerBase
+except ImportError:
+    PreTrainedModel = Any
+    PreTrainedTokenizerBase = Any
 
 from llm_client import BaseLLMClient
 
