@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.10", "3.11"]
-        flavor: [all, openai, ai21, api, local, .]
+        flavor: [all, openai, ai21, api, local, none]
 
     steps:
     - uses: actions/checkout@v3
@@ -22,7 +22,12 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
-      run: pip install -e .[${{ matrix.flavor }},test]
+      run: |
+        if [ "${{ matrix.flavor }}" = "none" ]; then
+          pip install -e .[test]
+        else
+          pip install -e .[${{ matrix.flavor }},test]
+        fi
     - name: Test with pytest
       run: |
         case "${{ matrix.flavor }}" in
@@ -35,7 +40,7 @@ jobs:
           api)
             pytest tests/llm_api_client/test_llm_api_client_factory.py
             ;;
-          .)
+          none)
             pytest tests/llm_client/test_llm_client_factory.py
             ;;
           *)
