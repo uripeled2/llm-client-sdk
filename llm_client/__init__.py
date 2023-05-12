@@ -10,7 +10,7 @@ try:
 except ImportError:
     pass
 try:
-    from llm_client.llm_api_client.openai_client import OpenAIClient
+    from llm_client.llm_api_client.openai_client import OpenAIClient, ChatMessage, Role
 except ImportError:
     pass
 try:
