@@ -5,7 +5,7 @@ It is design to enable easily integration with different LLM and to easily switc
 
 ## Requirements
 
-Python 3.9+
+Python 3.10+
 
 ## Installation
 ```console
