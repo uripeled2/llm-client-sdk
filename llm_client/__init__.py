@@ -18,6 +18,6 @@ try:
 except ImportError:
     pass
 try:
-    from llm_client.llm_client.local_client import LocalClient, LocalClientConfig
+    from llm_client.llm_client.local_client import LocalClient
 except ImportError:
     pass
