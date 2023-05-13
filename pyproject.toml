@@ -33,26 +33,27 @@ test = [
     "pytest-mock",
     "aioresponses"
 ]
-base-api = [
+api = [
     "aiohttp >=3.0.0,<4.0.0"
 ]
 ai21 = [
-    "llm-client[base-api]"
+    "llm-client[api]"
 ]
 openai = [
-    "llm-client[base-api]",
+    "llm-client[api]",
     "openai >=0.27.4",
     "tiktoken >=0.3.3",
     "dataclasses_json >= 0.5.0"
 ]
-api = [
-    "llm-client[base-api,ai21,openai]"
+local= [
+    "transformers >= 4.0.0"
 ]
-local = [
+huggingface = [
+    "llm-client[api]",
     "transformers >= 4.0.0"
 ]
 all = [
-    "llm-client[openai,ai21,local]"
+    "llm-client[openai,ai21,local,huggingface]"
 ]
 
 [tool.hatch.version]

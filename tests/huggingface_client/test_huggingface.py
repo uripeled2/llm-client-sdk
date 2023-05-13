@@ -1,0 +1,50 @@
+import pytest
+
+from llm_client import LLMAPIClientType, get_llm_api_client
+from llm_client.llm_api_client.huggingface_client import  AUTH_HEADER, \
+    BEARER_TOKEN, HuggingFaceClient
+from tests.test_utils.load_json_resource import load_json_resource
+
+
+def test_get_llm_api_client__with_hugging_face(config):
+    actual = get_llm_api_client(LLMAPIClientType.HUGGING_FACE, config)
+    assert isinstance(actual, HuggingFaceClient)
+
+
+@pytest.mark.asyncio
+async def test_text_completion__sanity(mock_aioresponse, llm_client, url):
+    mock_aioresponse.post(
+        url,
+        payload=load_json_resource("huggingface/text_completion.json")
+    )
+
+    actual = await llm_client.text_completion(prompt="who is kobe bryant")
+
+    assert actual == ['who is kobe bryant?', 'Kobe Bryant is a retired professional basketball player who played for the Los Angeles Lakers of']
+    mock_aioresponse.assert_called_once_with(url, method='POST',
+                                             headers={AUTH_HEADER: BEARER_TOKEN + llm_client._api_key},
+                                             json={'inputs': 'who is kobe bryant'},
+                                             raise_for_status=True)
+
+
+@pytest.mark.asyncio
+async def test_text_completion__with_kwargs(mock_aioresponse, llm_client, url):
+    mock_aioresponse.post(
+        url,
+        payload=load_json_resource("huggingface/text_completion.json")
+    )
+
+    actual = await llm_client.text_completion(prompt="who is kobe bryant",max_tokens = 10)
+
+    assert actual == ['who is kobe bryant?',
+                      'Kobe Bryant is a retired professional basketball player who played for the Los Angeles Lakers of']
+    mock_aioresponse.assert_called_once_with(url, method='POST',
+                                             headers={AUTH_HEADER: BEARER_TOKEN + llm_client._api_key},
+                                             json={'inputs': 'who is kobe bryant','max_tokens' : 10},
+                                             raise_for_status=True)
+
+
+@pytest.mark.asyncio
+def test_get_tokens_count__sanity(mock_aioresponse, llm_client, url):
+    actual = llm_client.get_tokens_count(text="is queen elisabeth alive?")
+    assert actual == 7
