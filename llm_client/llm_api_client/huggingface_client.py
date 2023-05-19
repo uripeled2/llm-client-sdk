@@ -35,7 +35,7 @@ class HuggingFaceClient(BaseLLMAPIClient):
             completions = response_json[COMPLETIONS_KEY][TEXT_KEY]
         else:
             completions = response_json[TEXT_KEY]
-        return [completion for completion in completions.split(NEWLINE) if completion != EMPTY_STR]
+        return [completion for completion in completions.split(NEWLINE) if completion != EMPTY_STR][1:]
 
     def get_tokens_count(self, text: str, **kwargs) -> int:
         tokenizer = AutoTokenizer.from_pretrained(DEFAULT_DIR + CONST_SLASH + self._default_model)

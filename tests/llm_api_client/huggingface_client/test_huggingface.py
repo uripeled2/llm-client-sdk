@@ -20,7 +20,7 @@ async def test_text_completion__sanity(mock_aioresponse, llm_client, url):
 
     actual = await llm_client.text_completion(prompt="who is kobe bryant")
 
-    assert actual == ['who is kobe bryant?', 'Kobe Bryant is a retired professional basketball player who played for the Los Angeles Lakers of']
+    assert actual == ['Kobe Bryant is a retired professional basketball player who played for the Los Angeles Lakers of']
     mock_aioresponse.assert_called_once_with(url, method='POST',
                                              headers={AUTH_HEADER: BEARER_TOKEN + llm_client._api_key},
                                              json={'inputs': 'who is kobe bryant'},
@@ -36,8 +36,7 @@ async def test_text_completion__with_kwargs(mock_aioresponse, llm_client, url):
 
     actual = await llm_client.text_completion(prompt="who is kobe bryant",max_tokens = 10)
 
-    assert actual == ['who is kobe bryant?',
-                      'Kobe Bryant is a retired professional basketball player who played for the Los Angeles Lakers of']
+    assert actual == ['Kobe Bryant is a retired professional basketball player who played for the Los Angeles Lakers of']
     mock_aioresponse.assert_called_once_with(url, method='POST',
                                              headers={AUTH_HEADER: BEARER_TOKEN + llm_client._api_key},
                                              json={'inputs': 'who is kobe bryant','max_tokens' : 10},
