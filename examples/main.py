@@ -44,7 +44,7 @@ async def main():
     elif LLM_CLIENT_TYPE == "AI21":
         llm_client = get_llm_api_client(LLMAPIClientType.AI21, get_ai21_config(ClientSession()))
     elif LLM_CLIENT_TYPE == "HUGGING_FACE":
-        llm_client = get_llm_api_client(LLMAPIClientType.HUGGING_FACE, get_ai21_config(ClientSession()))
+        llm_client = get_llm_api_client(LLMAPIClientType.HUGGING_FACE, get_huggingface_config(ClientSession()))
     else:
         raise ValueError("Unknown LLM client type")
 
