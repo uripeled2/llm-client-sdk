@@ -59,7 +59,7 @@ sync =  [
     "async_to_sync >= 0.2.0"
 ]
 all = [
-    "llm-client[openai,ai21,local,huggingface]"
+    "llm-client[openai,ai21,huggingface,local,sync]"
 ]
 
 [tool.hatch.version]
