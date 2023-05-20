@@ -4,14 +4,18 @@ import pytest
 from aiohttp import ClientSession
 from openai.openai_object import OpenAIObject
 
-from llm_client import OpenAIClient, get_llm_api_client, LLMAPIClientType
+from llm_client import OpenAIClient, LLMAPIClientType, LLMAPIClientFactory
 from llm_client.llm_api_client.base_llm_api_client import LLMAPIClientConfig
 from llm_client.llm_api_client.openai_client import ChatMessage, Role
 from tests.test_utils.load_json_resource import load_json_resource
 
 
-def test_get_llm_api_client__with_open_ai(config):
-    actual = get_llm_api_client(LLMAPIClientType.OPEN_AI, config)
+@pytest.mark.asyncio
+async def test_get_llm_api_client__with_open_ai(config):
+    del config.session
+    async with LLMAPIClientFactory() as llm_api_client_factory:
+
+        actual = llm_api_client_factory.get_llm_api_client(LLMAPIClientType.OPEN_AI, **config.__dict__)
 
     assert isinstance(actual, OpenAIClient)
 
