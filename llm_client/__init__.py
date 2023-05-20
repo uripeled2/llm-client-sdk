@@ -14,6 +14,10 @@ try:
         from llm_client.llm_api_client.ai21_client import AI21Client
     except ImportError:
         pass
+    try:
+        from llm_client.llm_api_client.huggingface_client import HuggingFaceClient
+    except ImportError:
+        pass
 except ImportError:
     pass
 # load local clients
