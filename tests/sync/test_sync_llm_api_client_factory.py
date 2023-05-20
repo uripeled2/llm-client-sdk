@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from llm_client import SyncLLMAPIClientFactory, LLMAPIClientFactory
+from llm_client.sync.sync_llm_api_client_factory import SyncLLMAPIClientFactory, LLMAPIClientFactory
 
 
 def test_contex_manger():

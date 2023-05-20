@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from llm_client import get_sync_llm_client
+from llm_client.sync.get_sync_llm_client import get_sync_llm_client
 
 
 def test_sanity():
