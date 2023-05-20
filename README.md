@@ -20,6 +20,14 @@ For only current api clients support
 ```console
 $ pip install llm-client[api]
 ```
+For only local client support
+```console
+$ pip install llm-client[local]
+```
+For sync support
+```console
+$ pip install llm-client[sync]
+```
 For only OpenAI support
 ```console
 $ pip install llm-client[openai]
@@ -31,10 +39,6 @@ $ pip install llm-client[ai21]
 For only HuggingFace support
 ```console
 $ pip install llm-client[huggingface]
-```
-For only local client support
-```console
-$ pip install llm-client[local]
 ```
 
 ## Examples
@@ -75,6 +79,17 @@ async def main():
 
         await llm_client.text_completion(prompt="This is indeed a test")
         await llm_client.text_completion(prompt="This is indeed a test", max_length=50)
+
+        
+# Or if you don't want to use async
+from llm_client import SyncLLMAPIClientFactory
+
+with SyncLLMAPIClientFactory() as llm_api_client_factory:
+    llm_client = llm_api_client_factory.get_llm_api_client(LLMAPIClientType.OPEN_AI,
+                                                           api_key=OPENAI_API_KEY)
+
+    llm_client.text_completion(prompt="This is indeed a test")
+    llm_client.text_completion(prompt="This is indeed a test", max_length=50)
 ```
 Local model
 ```python
@@ -93,6 +108,21 @@ async def main():
     await llm_client.text_completion(prompt="This is indeed a test")
     await llm_client.text_completion(prompt="This is indeed a test", max_length=50)
 
+
+# Or if you don't want to use async
+import async_to_sync
+
+try:
+    model = AutoModelForCausalLM.from_pretrained(os.environ["MODEL_NAME_OR_PATH"])
+except ValueError:
+    model = AutoModelForSeq2SeqLM.from_pretrained(os.environ["MODEL_NAME_OR_PATH"])
+tokenizer = AutoTokenizer.from_pretrained(os.environ["MODEL_NAME_OR_PATH"])
+llm_client = LocalClient(LocalClientConfig(model, tokenizer, os.environ["TENSORS_TYPE"], os.environ["DEVICE"]))
+
+llm_client = async_to_sync.methods(llm_client)
+
+llm_client.text_completion(prompt="This is indeed a test")
+llm_client.text_completion(prompt="This is indeed a test", max_length=50)
 ```
 
 ## Contributing
@@ -119,4 +149,5 @@ $ pytest tests
 ```
 If you want to add a new LLMClient you need to implement BaseLLMClient or BaseLLMAPIClient and adding the 
 relevant dependencies in [pyproject.toml](pyproject.toml) also make sure you are adding a
-matrix.flavor in [test.yml](.github%2Fworkflows%2Ftest.yml)
+matrix.flavor in [test.yml](.github%2Fworkflows%2Ftest.yml). 
+If you are adding a BaseLLMAPIClient you also need to add him in LLMAPIClientFactory

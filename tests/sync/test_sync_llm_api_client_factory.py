@@ -15,10 +15,10 @@ def test_contex_manger():
 
 def test_get_llm_api_client():
     with patch.object(LLMAPIClientFactory,  "get_llm_api_client") as mock_get_llm_api_client:
-        with patch("llm_client.sync.sync_llm_api_client_factory.get_sync_llm_client") as mock_get_sync_llm_client:
+        with patch("llm_client.sync.sync_llm_api_client_factory.async_to_sync") as mock_async_to_sync:
             with SyncLLMAPIClientFactory() as sync_llm_api_client_factory:
                 actual = sync_llm_api_client_factory.get_llm_api_client("llm_api_client_type", api_key="api-key")
 
-            assert actual == mock_get_sync_llm_client.return_value
+            assert actual == mock_async_to_sync.methods.return_value
             mock_get_llm_api_client.assert_called_once_with("llm_api_client_type", api_key="api-key")
-            mock_get_sync_llm_client.assert_called_once_with(mock_get_llm_api_client.return_value)
+            mock_async_to_sync.methods.assert_called_once_with(mock_get_llm_api_client.return_value)

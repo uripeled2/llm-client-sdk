@@ -4,7 +4,6 @@ import async_to_sync
 from aiohttp import ClientSession
 
 from llm_client.llm_api_client.llm_api_client_factory import LLMAPIClientFactory, LLMAPIClientType
-from llm_client.sync.get_sync_llm_client import get_sync_llm_client
 
 
 class SyncLLMAPIClientFactory:
@@ -20,5 +19,5 @@ class SyncLLMAPIClientFactory:
         asyncio.run(self._llm_api_client_factory.__aexit__(exc_type, exc_val, exc_tb))
 
     def get_llm_api_client(self, llm_api_client_type: LLMAPIClientType, **config_kwargs) -> async_to_sync.methods:
-        return get_sync_llm_client(self._llm_api_client_factory.
-                                   get_llm_api_client(llm_api_client_type, **config_kwargs))
+        return async_to_sync.methods(self._llm_api_client_factory.
+                                     get_llm_api_client(llm_api_client_type, **config_kwargs))
