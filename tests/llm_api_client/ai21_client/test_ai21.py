@@ -1,14 +1,17 @@
 import pytest
 
-from llm_client import LLMAPIClientType, get_llm_api_client
+from llm_client import LLMAPIClientType, LLMAPIClientFactory
 from llm_client.llm_api_client.ai21_client import BASE_URL, DATA_KEY, TEXT_KEY, TOKENIZE_PATH, AUTH_HEADER, \
     BEARER_TOKEN, AI21Client
 from tests.llm_api_client.ai21_client.conftest import build_url
 from tests.test_utils.load_json_resource import load_json_resource
 
 
-def test_get_llm_api_client__with_ai21(config):
-    actual = get_llm_api_client(LLMAPIClientType.AI21, config)
+@pytest.mark.asyncio
+async def test_get_llm_api_client__with_ai21(config):
+    del config.session
+    async with LLMAPIClientFactory() as llm_api_client_factory:
+        actual = llm_api_client_factory.get_llm_api_client(LLMAPIClientType.AI21, **config.__dict__)
 
     assert isinstance(actual, AI21Client)
 

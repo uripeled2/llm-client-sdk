@@ -45,18 +45,21 @@ openai = [
     "tiktoken >=0.3.3",
     "dataclasses_json >= 0.5.0"
 ]
+huggingface = [
+    "llm-client[base-api]",
+    "transformers >= 4.0.0"
+]
 api = [
     "llm-client[base-api,ai21,openai,huggingface]"
 ]
 local = [
     "transformers >= 4.0.0"
 ]
-all = [
-    "llm-client[openai,ai21,local,huggingface]"
+sync =  [
+    "async_to_sync >= 0.2.0"
 ]
-huggingface = [
-    "llm-client[base-api]",
-    "transformers >= 4.0.0"
+all = [
+    "llm-client[openai,ai21,huggingface,local,sync]"
 ]
 
 [tool.hatch.version]

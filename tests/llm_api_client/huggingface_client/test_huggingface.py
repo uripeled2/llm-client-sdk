@@ -1,13 +1,18 @@
 import pytest
 
-from llm_client import LLMAPIClientType, get_llm_api_client
-from llm_client.llm_api_client.huggingface_client import  AUTH_HEADER, \
+from llm_client import LLMAPIClientType, LLMAPIClientFactory
+from llm_client.llm_api_client.huggingface_client import AUTH_HEADER, \
     BEARER_TOKEN, HuggingFaceClient
 from tests.test_utils.load_json_resource import load_json_resource
 
 
-def test_get_llm_api_client__with_hugging_face(config):
-    actual = get_llm_api_client(LLMAPIClientType.HUGGING_FACE, config)
+@pytest.mark.asyncio
+async def test_get_llm_api_client__with_hugging_face(config):
+    del config.session
+    async with LLMAPIClientFactory() as llm_api_client_factory:
+
+        actual = llm_api_client_factory.get_llm_api_client(LLMAPIClientType.HUGGING_FACE, **config.__dict__)
+
     assert isinstance(actual, HuggingFaceClient)
 
 
