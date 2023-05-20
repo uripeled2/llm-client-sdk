@@ -46,13 +46,17 @@ openai = [
     "dataclasses_json >= 0.5.0"
 ]
 api = [
-    "llm-client[base-api,ai21,openai]"
+    "llm-client[base-api,ai21,openai,huggingface]"
 ]
 local = [
     "transformers >= 4.0.0"
 ]
 all = [
-    "llm-client[openai,ai21,local]"
+    "llm-client[openai,ai21,local,huggingface]"
+]
+huggingface = [
+    "llm-client[base-api]",
+    "transformers >= 4.0.0"
 ]
 
 [tool.hatch.version]

@@ -6,7 +6,6 @@ from transformers import AutoModelForCausalLM, AutoModelForSeq2SeqLM, AutoTokeni
 from llm_client import LLMAPIClientConfig, LLMAPIClientType, get_llm_api_client, ChatMessage, Role, LocalClient, \
     LocalClientConfig
 
-
 LLM_CLIENT_TYPE = os.environ["LLM_CLIENT_TYPE"]
 # api client env var
 LLM_API_KEY = os.getenv("LLM_API_KEY")
@@ -33,6 +32,10 @@ def get_ai21_config(session: ClientSession) -> LLMAPIClientConfig:
     return LLMAPIClientConfig(LLM_API_KEY, session, default_model="j2-grande")
 
 
+def get_huggingface_config(session: ClientSession) -> LLMAPIClientConfig:
+    return LLMAPIClientConfig(LLM_API_KEY, session)
+
+
 async def main():
     if LLM_CLIENT_TYPE == "LOCAL":
         llm_client = LocalClient(get_local_client_config())
@@ -40,6 +43,8 @@ async def main():
         llm_client = get_llm_api_client(LLMAPIClientType.OPEN_AI, get_open_ai_config(ClientSession()))
     elif LLM_CLIENT_TYPE == "AI21":
         llm_client = get_llm_api_client(LLMAPIClientType.AI21, get_ai21_config(ClientSession()))
+    elif LLM_CLIENT_TYPE == "HUGGING_FACE":
+        llm_client = get_llm_api_client(LLMAPIClientType.HUGGING_FACE, get_huggingface_config(ClientSession()))
     else:
         raise ValueError("Unknown LLM client type")
 
