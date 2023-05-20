@@ -28,6 +28,10 @@ For only AI21 support
 ```console
 $ pip install llm-client[ai21]
 ```
+For only HuggingFace support
+```console
+$ pip install llm-client[huggingface]
+```
 For only local client support
 ```console
 $ pip install llm-client[local]
@@ -35,27 +39,48 @@ $ pip install llm-client[local]
 
 ## Examples
 
-### OpenAI
+Using OpenAI directly through OpenAIClient
 ```python
 import os
 from aiohttp import ClientSession
-from llm_client import get_llm_client, LLMAPIClientConfigWithClientType, LLMAPIClientType, LLMAPIClientConfig
+from llm_client import ChatMessage, Role, OpenAIClient, LLMAPIClientConfig
+
+OPENAI_API_KEY = os.environ["API_KEY"]
+OPENAI_ORG_ID = os.getenv("ORG_ID")
+
 
 async def main():
     async with ClientSession() as session:
-        llm_client = get_llm_client(LLMAPIClientConfigWithClientType(LLMAPIClientType.OPEN_AI, 
-                                                    LLMAPIClientConfig(os.environ["OPENAI_API_KEY"], session,
-                                                                        default_model="ada")))
+        llm_client = OpenAIClient(LLMAPIClientConfig(OPENAI_API_KEY, session, default_model="text-davinci-003",
+                                                     headers={"OpenAI-Organization": OPENAI_ORG_ID}))  # The headers are optional
+        text = "This is indeed a test"
+
+        print("number of tokens:", await llm_client.get_tokens_count(text))  # 5
+        print("generated chat:", await llm_client.chat_completion(  
+            messages=[ChatMessage(role=Role.USER, content="Hello!")], model="gpt-3.5-turbo"))  # ['Hi there! How can I assist you today?']
+        print("generated text:", await llm_client.text_completion(text))  # [' string\n\nYes, this is a test string. Test strings are used to']
+```
+Using LLMAPIClientFactory
+```python
+import os
+from llm_client import LLMAPIClientFactory, LLMAPIClientType
+
+OPENAI_API_KEY = os.environ["API_KEY"]
+
+
+async def main():
+    async with LLMAPIClientFactory() as llm_api_client_factory:
+        llm_client = llm_api_client_factory.get_llm_api_client(LLMAPIClientType.OPEN_AI,
+                                                               api_key=OPENAI_API_KEY)
 
         await llm_client.text_completion(prompt="This is indeed a test")
-        await llm_client.text_completion(prompt="This is indeed a test", model="text-davinci-003")
+        await llm_client.text_completion(prompt="This is indeed a test", max_length=50)
 ```
-
-### Local
+Local model
 ```python
 import os
 from transformers import AutoModelForCausalLM, AutoModelForSeq2SeqLM, AutoTokenizer
-from llm_client import get_llm_client, LocalClientConfig
+from llm_client import LocalClientConfig, LocalClient
 
 async def main():
     try:
@@ -63,23 +88,25 @@ async def main():
     except ValueError:
         model = AutoModelForSeq2SeqLM.from_pretrained(os.environ["MODEL_NAME_OR_PATH"])
     tokenizer = AutoTokenizer.from_pretrained(os.environ["MODEL_NAME_OR_PATH"])
-    llm_client = get_llm_client(LocalClientConfig(model, tokenizer, os.environ["TENSORS_TYPE"], os.environ["DEVICE"]))
+    llm_client = LocalClient(LocalClientConfig(model, tokenizer, os.environ["TENSORS_TYPE"], os.environ["DEVICE"]))
 
     await llm_client.text_completion(prompt="This is indeed a test")
     await llm_client.text_completion(prompt="This is indeed a test", max_length=50)
+
 ```
-You can find more detailed example in [examples](examples)
 
 ## Contributing
 
 Contributions are welcome! Please check out the todos below, and feel free to open issue or a pull request.
 
 ### Todo
+*The list is unordered*
 
 - [ ] Add support for more LLMs
 - [ ] Add support for more functions via LLMs (e.g. embeddings, list models, edits, etc.)
 - [ ] Add contributing guidelines
 - [ ] Create an easy way to run multiple LLMs in parallel with the same prompts
+- [ ] Convert common models parameter (e.g. temperature, max_tokens, etc.)
 
 ### Development
 To install the package in development mode, run the following command:
