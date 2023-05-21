@@ -1,5 +1,6 @@
 # LLM-Client-SDK
-LLM-Client-SDK is an SDK for communicating with generative AI large language models.
+LLM-Client-SDK is an SDK for communicating with generative AI large language models
+(OpenAI, AI21, HuggingfaceHub, Aleph Alpha, Local models with transformers).
 
 It is design to enable easily integration with different LLM and to easily switch between them
 
@@ -16,7 +17,7 @@ For all current clients support
 ```console
 $ pip install llm-client[all]
 ```
-For only current api clients support
+For all current api clients support
 ```console
 $ pip install llm-client[api]
 ```
@@ -31,10 +32,6 @@ $ pip install llm-client[sync]
 For only OpenAI support
 ```console
 $ pip install llm-client[openai]
-```
-For only AI21 support
-```console
-$ pip install llm-client[ai21]
 ```
 For only HuggingFace support
 ```console
