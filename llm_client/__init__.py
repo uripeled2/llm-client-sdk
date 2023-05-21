@@ -10,8 +10,10 @@ try:
         from llm_client.llm_api_client.openai_client import OpenAIClient, ChatMessage, Role
     except ImportError:
         pass
+    # load base-api clients
     try:
         from llm_client.llm_api_client.ai21_client import AI21Client
+        from llm_client.llm_api_client.aleph_alpha_client import AlephAlphaClient
     except ImportError:
         pass
     try:
