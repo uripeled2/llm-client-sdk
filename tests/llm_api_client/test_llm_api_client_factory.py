@@ -14,9 +14,10 @@ def test_get_llm_api_client__without_context_manager():
 @pytest.mark.asyncio
 @pytest.mark.parametrize("client_type,client_patch",
                          [(LLMAPIClientType.OPEN_AI, "OpenAIClient"), (LLMAPIClientType.AI21, "AI21Client"),
-                          (LLMAPIClientType.HUGGING_FACE, "HuggingFaceClient")])
+                          (LLMAPIClientType.HUGGING_FACE, "HuggingFaceClient"),
+                          (LLMAPIClientType.ALEPH_ALPHA, "AlephAlphaClient")])
 async def test_get_llm_api_client__with_client_type(client_type, client_patch):
-    assert len(LLMAPIClientType) == 3
+    assert len(LLMAPIClientType) == 4
 
     llm_api_client_factory = LLMAPIClientFactory()
     async with llm_api_client_factory:

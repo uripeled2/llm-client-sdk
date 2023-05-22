@@ -1,22 +1,69 @@
 # LLM-Client-SDK
 LLM-Client-SDK is an SDK for communicating with generative AI large language models
-(OpenAI, AI21, HuggingfaceHub, Aleph Alpha, Local models with transformers).
+(We currently support - OpenAI, AI21, HuggingfaceHub, Aleph Alpha,
+Local models with transformers - and many more soon).
 
-It is design to enable easily integration with different LLM and to easily switch between them
+Our vision is to provide async native and production ready SDK while creating 
+a powerful and fast integration with different LLM without letting the user lose 
+any flexibility (API params, endpoints etc.). *We also provide sync version, see
+more details below in Usage section.
+
+## Base Interface
+The package expose two simple interface for communicating with LLMs (In the future we 
+will expend the interface to support more tasks like embeddings, list models, edits, etc.
+and we will add a standardized for LLMs param like max_tokens, temperature, etc.):
+```python
+from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from typing import Any
+from aiohttp import ClientSession
+
+
+class BaseLLMClient(ABC):
+    @abstractmethod
+    async def text_completion(self, prompt: str, **kwargs) -> list[str]:
+        raise NotImplementedError()
+
+    async def get_tokens_count(self, text: str, **kwargs) -> int:
+        raise NotImplementedError()
+
+
+
+@dataclass
+class LLMAPIClientConfig:
+    api_key: str
+    session: ClientSession
+    base_url: str | None = None
+    default_model: str | None = None
+    headers: dict[str, Any] = field(default_factory=dict)
+
+
+class BaseLLMAPIClient(BaseLLMClient, ABC):
+    def __init__(self, config: LLMAPIClientConfig):
+        ...
+
+    @abstractmethod
+    async def text_completion(self, prompt: str, model: str | None = None, **kwargs) -> list[str]:
+        raise NotImplementedError()
+```
 
 ## Requirements
 
 Python 3.10+
 
 ## Installation
-```console
-$ pip install llm-client
-```
-### Optional Dependencies
+If you are worried about the size of the package you can install only the clients you need,
+by default we install none of the clients.
+
 For all current clients support
 ```console
 $ pip install llm-client[all]
 ```
+For only the base interface and some light LLMs clients (AI21 and Aleph Alpha)
+```console
+$ pip install llm-client
+```
+### Optional Dependencies
 For all current api clients support
 ```console
 $ pip install llm-client[api]
@@ -38,9 +85,10 @@ For only HuggingFace support
 $ pip install llm-client[huggingface]
 ```
 
-## Examples
 
-Using OpenAI directly through OpenAIClient
+## Usage
+
+Using OpenAI directly through OpenAIClient - Maximum control and best practice in production
 ```python
 import os
 from aiohttp import ClientSession
@@ -61,7 +109,7 @@ async def main():
             messages=[ChatMessage(role=Role.USER, content="Hello!")], model="gpt-3.5-turbo"))  # ['Hi there! How can I assist you today?']
         print("generated text:", await llm_client.text_completion(text))  # [' string\n\nYes, this is a test string. Test strings are used to']
 ```
-Using LLMAPIClientFactory
+Using LLMAPIClientFactory - Perfect if you want to move fast and to not handle the client session yourself
 ```python
 import os
 from llm_client import LLMAPIClientFactory, LLMAPIClientType
@@ -144,7 +192,9 @@ To run the tests, run the following command:
 ```console
 $ pytest tests
 ```
-If you want to add a new LLMClient you need to implement BaseLLMClient or BaseLLMAPIClient and adding the 
-relevant dependencies in [pyproject.toml](pyproject.toml) also make sure you are adding a
+If you want to add a new LLMClient you need to implement BaseLLMClient or BaseLLMAPIClient.
+
+If you are adding a BaseLLMAPIClient you also need to add him in LLMAPIClientFactory.
+
+You can add dependencies to your LLMClient in [pyproject.toml](pyproject.toml) also make sure you are adding a
 matrix.flavor in [test.yml](.github%2Fworkflows%2Ftest.yml). 
-If you are adding a BaseLLMAPIClient you also need to add him in LLMAPIClientFactory

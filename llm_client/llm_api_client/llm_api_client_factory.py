@@ -9,6 +9,7 @@ class LLMAPIClientType(Enum):
     OPEN_AI = "OpenAI"
     AI21 = "AI21"
     HUGGING_FACE = "HUGGING_FACE"
+    ALEPH_ALPHA = "AlephAlpha"
 
 
 class LLMAPIClientFactory:
@@ -35,5 +36,8 @@ class LLMAPIClientFactory:
         elif llm_api_client_type == LLMAPIClientType.HUGGING_FACE:
             from llm_client import HuggingFaceClient
             return HuggingFaceClient(config)
+        elif llm_api_client_type == LLMAPIClientType.ALEPH_ALPHA:
+            from llm_client import AlephAlphaClient
+            return AlephAlphaClient(config)
         else:
             raise ValueError("Unknown LLM client type")
