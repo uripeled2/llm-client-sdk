@@ -1,4 +1,7 @@
 # LLM-Client-SDK
+[![Test](https://github.com/uripeled2/llm-client-sdk/actions/workflows/test.yml/badge.svg)](https://github.com/uripeled2/llm-client-sdk/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/github/license/uripeled2/llm-client-sdk.svg)](https://opensource.org/licenses/MIT)
+
 LLM-Client-SDK is an SDK for communicating with generative AI large language models
 (We currently support - OpenAI, AI21, HuggingfaceHub, Aleph Alpha,
 Local models with transformers - and many more soon).
