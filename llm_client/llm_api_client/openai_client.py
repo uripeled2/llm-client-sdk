@@ -11,6 +11,9 @@ from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMA
 from llm_client.consts import PROMPT_KEY
 
 
+INPUT_KEY = "input"
+
+
 class Role(Enum):
     SYSTEM = "system"
     USER = "user"
@@ -43,6 +46,12 @@ class OpenAIClient(BaseLLMAPIClient):
         kwargs["messages"] = [message.to_dict() for message in messages]
         completions = await self._client.ChatCompletion.acreate(headers=self._headers, **kwargs)
         return [choice.message.content for choice in completions.choices]
+
+    async def embedding(self, text: str, model: str | None = None, **kwargs) -> list[float]:
+        self._set_model_in_kwargs(kwargs, model)
+        kwargs[INPUT_KEY] = text
+        embeddings = await openai.Embedding.acreate(**kwargs)
+        return embeddings.data[0].embedding
 
     async def get_tokens_count(self, text: str, model: str | None = None, **kwargs) -> int:
         if model is None:

@@ -3,11 +3,15 @@ from llm_client.consts import PROMPT_KEY
 
 COMPLETE_PATH = "complete"
 TOKENIZE_PATH = "tokenize"
+EMBEDDING_PATH = "semantic_embed"
 BASE_URL = "https://api.aleph-alpha.com/"
 COMPLETIONS_KEY = "completions"
 TEXT_KEY = "completion"
 TOKENS_IDS_KEY = "token_ids"
 TOKENS_KEY = "tokens"
+REPRESENTATION_KEY = "representation"
+REPRESENTATION_DEFAULT_VALUE = "symmetric"
+EMBEDDING_KEY = "embedding"
 AUTH_HEADER = "Authorization"
 BEARER_TOKEN = "Bearer "
 MAX_TOKENS_KEY = "maximum_tokens"
@@ -34,6 +38,18 @@ class AlephAlphaClient(BaseLLMAPIClient):
         response_json = await response.json()
         completions = response_json[COMPLETIONS_KEY]
         return [completion[TEXT_KEY] for completion in completions]
+
+    async def embedding(self, text: str, model: str | None = None, representation: str = REPRESENTATION_DEFAULT_VALUE,
+                        **kwargs) -> list[float]:
+        self._set_model_in_kwargs(kwargs, model)
+        kwargs[REPRESENTATION_KEY] = representation
+        kwargs[PROMPT_KEY] = text
+        response = await self._session.post(self._base_url + EMBEDDING_PATH,
+                                            json=kwargs,
+                                            headers=self._headers,
+                                            raise_for_status=True)
+        response_json = await response.json()
+        return response_json[EMBEDDING_KEY]
 
     async def get_tokens_count(self, text: str, model: str | None = None, **kwargs) -> int:
         self._set_model_in_kwargs(kwargs, model)

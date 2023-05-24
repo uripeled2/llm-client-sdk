@@ -48,6 +48,9 @@ class BaseLLMAPIClient(BaseLLMClient, ABC):
     @abstractmethod
     async def text_completion(self, prompt: str, model: str | None = None, **kwargs) -> list[str]:
         raise NotImplementedError()
+
+    async def embedding(self, text: str, model: str | None = None, **kwargs) -> list[float]:
+        raise NotImplementedError()
 ```
 
 ## Requirements
@@ -111,6 +114,7 @@ async def main():
         print("generated chat:", await llm_client.chat_completion(  
             messages=[ChatMessage(role=Role.USER, content="Hello!")], model="gpt-3.5-turbo"))  # ['Hi there! How can I assist you today?']
         print("generated text:", await llm_client.text_completion(text))  # [' string\n\nYes, this is a test string. Test strings are used to']
+        print("generated embedding:", await llm_client.embedding(text))  # [0.0023064255, -0.009327292, ...]
 ```
 Using LLMAPIClientFactory - Perfect if you want to move fast and to not handle the client session yourself
 ```python
@@ -181,7 +185,11 @@ Contributions are welcome! Please check out the todos below, and feel free to op
 *The list is unordered*
 
 - [ ] Add support for more LLMs
-- [ ] Add support for more functions via LLMs (e.g. embeddings, list models, edits, etc.)
+- [x] Add support for more functions via LLMs 
+  - [x] embeddings
+  - [ ] list models
+  - [ ] edits
+  - [ ] more
 - [ ] Add contributing guidelines
 - [ ] Create an easy way to run multiple LLMs in parallel with the same prompts
 - [ ] Convert common models parameter (e.g. temperature, max_tokens, etc.)

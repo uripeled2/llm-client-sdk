@@ -32,6 +32,9 @@ class BaseLLMAPIClient(BaseLLMClient, ABC):
     async def text_completion(self, prompt: str, model: str | None = None, **kwargs) -> list[str]:
         raise NotImplementedError()
 
+    async def embedding(self, text: str, model: str | None = None, **kwargs) -> list[float]:
+        raise NotImplementedError()
+
     def _set_model_in_kwargs(self, kwargs, model: str | None) -> None:
         if model is not None:
             kwargs[MODEL_KEY] = model
