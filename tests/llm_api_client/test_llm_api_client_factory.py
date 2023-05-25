@@ -15,9 +15,10 @@ def test_get_llm_api_client__without_context_manager():
 @pytest.mark.parametrize("client_type,client_patch",
                          [(LLMAPIClientType.OPEN_AI, "OpenAIClient"), (LLMAPIClientType.AI21, "AI21Client"),
                           (LLMAPIClientType.HUGGING_FACE, "HuggingFaceClient"),
-                          (LLMAPIClientType.ALEPH_ALPHA, "AlephAlphaClient")])
+                          (LLMAPIClientType.ALEPH_ALPHA, "AlephAlphaClient"),
+                          (LLMAPIClientType.ANTHROPIC, "AnthropicClient")])
 async def test_get_llm_api_client__with_client_type(client_type, client_patch):
-    assert len(LLMAPIClientType) == 4
+    assert len(LLMAPIClientType) == 5
 
     llm_api_client_factory = LLMAPIClientFactory()
     async with llm_api_client_factory:
@@ -35,4 +36,3 @@ async def test_get_llm_api_client__with_unknown_client_type():
     async with llm_api_client_factory:
         with pytest.raises(ValueError):
             llm_api_client_factory.get_llm_api_client("unknown-client-type", api_key="super secret key")
-

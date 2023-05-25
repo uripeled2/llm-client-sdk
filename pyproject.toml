@@ -41,8 +41,11 @@ openai = [
 huggingface = [
     "transformers >= 4.0.0"
 ]
+anthropic = [
+    "anthropic >= 0.2.0"
+]
 api = [
-    "llm-client[openai,huggingface]"
+    "llm-client[openai,huggingface,anthropic]"
 ]
 local = [
     "transformers >= 4.0.0"
@@ -51,7 +54,7 @@ sync =  [
     "async_to_sync >= 0.2.0"
 ]
 all = [
-    "llm-client[openai,huggingface,local,sync]"
+    "llm-client[api,local,sync]"
 ]
 
 [tool.hatch.version]
