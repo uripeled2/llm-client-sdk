@@ -1,4 +1,4 @@
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 from llm_client.base_llm_client import BaseLLMClient
 
@@ -6,18 +6,23 @@ from llm_client.base_llm_client import BaseLLMClient
 try:
     from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
     from llm_client.llm_api_client.llm_api_client_factory import LLMAPIClientFactory, LLMAPIClientType
-    try:
-        from llm_client.llm_api_client.openai_client import OpenAIClient, ChatMessage, Role
-    except ImportError:
-        pass
     # load base-api clients
     try:
         from llm_client.llm_api_client.ai21_client import AI21Client
         from llm_client.llm_api_client.aleph_alpha_client import AlephAlphaClient
     except ImportError:
         pass
+    # load apis with different dependencies
+    try:
+        from llm_client.llm_api_client.openai_client import OpenAIClient, ChatMessage, Role
+    except ImportError:
+        pass
     try:
         from llm_client.llm_api_client.huggingface_client import HuggingFaceClient
+    except ImportError:
+        pass
+    try:
+        from llm_client.llm_api_client.anthropic_client import AnthropicClient
     except ImportError:
         pass
 except ImportError:
