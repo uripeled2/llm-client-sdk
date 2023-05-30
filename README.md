@@ -12,8 +12,8 @@ any flexibility (API params, endpoints etc.). *We also provide sync version, see
 more details below in Usage section.
 
 ## Base Interface
-The package expose two simple interface for communicating with LLMs (In the future we 
-will expend the interface to support more tasks like embeddings, list models, edits, etc.
+The package exposes two simple interfaces for communicating with LLMs (In the future, we 
+will expand the interface to support more tasks like embeddings, list models, edits, etc.
 and we will add a standardized for LLMs param like max_tokens, temperature, etc.):
 ```python
 from abc import ABC, abstractmethod
