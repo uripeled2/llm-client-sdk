@@ -24,13 +24,15 @@ class AlephAlphaClient(BaseLLMAPIClient):
             self._base_url = BASE_URL
         self._headers[AUTH_HEADER] = BEARER_TOKEN + self._api_key
 
-    async def text_completion(self, prompt: str, model: str | None = None, max_tokens: int | None = None, **kwargs) ->\
+    async def text_completion(self, prompt: str, model: str | None = None, max_tokens : int = None, temperature : float = None, **kwargs) ->\
             list[str]:
+        self._set_model_in_kwargs(kwargs, model)
         if max_tokens is None:
             raise ValueError("max_tokens must be specified")
-        self._set_model_in_kwargs(kwargs, model)
         kwargs[PROMPT_KEY] = prompt
-        kwargs[MAX_TOKENS_KEY] = max_tokens
+        kwargs["maximum_tokens"] = kwargs.pop("maximum_tokens", max_tokens)
+        if temperature is not None:
+            kwargs["temperature"] = temperature
         response = await self._session.post(self._base_url + COMPLETE_PATH,
                                             json=kwargs,
                                             headers=self._headers,
