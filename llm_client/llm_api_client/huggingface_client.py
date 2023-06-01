@@ -12,6 +12,8 @@ DEFAULT_MODEL = "oasst-sft-4-pythia-12b-epoch-3.5"
 CONST_SLASH = '/'
 EMPTY_STR = ''
 NEWLINE = '\n'
+TEMPERATURE_KEY = "temperature"
+TOKENS_KEY = "max_length"
 
 
 class HuggingFaceClient(BaseLLMAPIClient):
@@ -27,8 +29,8 @@ class HuggingFaceClient(BaseLLMAPIClient):
                               model: str | None = None, **kwargs) -> list[str]:
         model = model or self._default_model
         kwargs[INPUT_KEY] = prompt
-        kwargs["temperature"] = temperature
-        kwargs["max_length"] = kwargs.pop("max_length", max_tokens)
+        kwargs[TEMPERATURE_KEY] = temperature
+        kwargs[TOKENS_KEY] = kwargs.pop(TOKENS_KEY, max_tokens)
         response = await self._session.post(self._base_url + model + CONST_SLASH,
                                             json=kwargs,
                                             headers=self._headers,
