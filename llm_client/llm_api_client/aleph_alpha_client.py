@@ -24,7 +24,7 @@ class AlephAlphaClient(BaseLLMAPIClient):
             self._base_url = BASE_URL
         self._headers[AUTH_HEADER] = BEARER_TOKEN + self._api_key
 
-    async def text_completion(self, prompt: str, model: str | None = None, max_tokens : int = None, temperature : float = None, **kwargs) ->\
+    async def text_completion(self, prompt: str, model: str | None = None, max_tokens : int | None= None, temperature : float | None = None , **kwargs) ->\
             list[str]:
         self._set_model_in_kwargs(kwargs, model)
         if max_tokens is None:
@@ -41,11 +41,16 @@ class AlephAlphaClient(BaseLLMAPIClient):
         completions = response_json[COMPLETIONS_KEY]
         return [completion[TEXT_KEY] for completion in completions]
 
-    async def embedding(self, text: str, model: str | None = None, representation: str = REPRESENTATION_DEFAULT_VALUE,
+    async def embedding(self, text: str, model: str | None = None, max_tokens : int | None= None, temperature : float | None = None,representation: str = REPRESENTATION_DEFAULT_VALUE,
                         **kwargs) -> list[float]:
         self._set_model_in_kwargs(kwargs, model)
         kwargs[REPRESENTATION_KEY] = representation
         kwargs[PROMPT_KEY] = text
+        if max_tokens is None:
+            raise ValueError("max_tokens must be specified")
+        kwargs["maximum_tokens"] = kwargs.pop("maximum_tokens", max_tokens)
+        if temperature is not None:
+            kwargs["temperature"] = temperature
         response = await self._session.post(self._base_url + EMBEDDING_PATH,
                                             json=kwargs,
                                             headers=self._headers,

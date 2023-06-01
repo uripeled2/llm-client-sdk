@@ -46,7 +46,8 @@ class BaseLLMAPIClient(BaseLLMClient, ABC):
         ...
 
     @abstractmethod
-    async def text_completion(self, prompt: str, model: str | None = None, **kwargs) -> list[str]:
+    async def text_completion(self, prompt: str, model: str | None = None, max_tokens: int | None = None,
+                              temperature: float | None = None, **kwargs) -> list[str]:
         raise NotImplementedError()
 
     async def embedding(self, text: str, model: str | None = None, **kwargs) -> list[float]:
@@ -130,7 +131,7 @@ async def main():
                                                                api_key=OPENAI_API_KEY)
 
         await llm_client.text_completion(prompt="This is indeed a test")
-        await llm_client.text_completion(prompt="This is indeed a test", max_length=50)
+        await llm_client.text_completion(prompt="This is indeed a test", max_tokens=50)
 
         
 # Or if you don't want to use async
@@ -141,7 +142,7 @@ with SyncLLMAPIClientFactory() as llm_api_client_factory:
                                                            api_key=OPENAI_API_KEY)
 
     llm_client.text_completion(prompt="This is indeed a test")
-    llm_client.text_completion(prompt="This is indeed a test", max_length=50)
+    llm_client.text_completion(prompt="This is indeed a test", max_tokens=50)
 ```
 Local model
 ```python
@@ -158,7 +159,7 @@ async def main():
     llm_client = LocalClient(LocalClientConfig(model, tokenizer, os.environ["TENSORS_TYPE"], os.environ["DEVICE"]))
 
     await llm_client.text_completion(prompt="This is indeed a test")
-    await llm_client.text_completion(prompt="This is indeed a test", max_length=50)
+    await llm_client.text_completion(prompt="This is indeed a test", max_tokens=50)
 
 
 # Or if you don't want to use async
@@ -174,7 +175,7 @@ llm_client = LocalClient(LocalClientConfig(model, tokenizer, os.environ["TENSORS
 llm_client = async_to_sync.methods(llm_client)
 
 llm_client.text_completion(prompt="This is indeed a test")
-llm_client.text_completion(prompt="This is indeed a test", max_length=50)
+llm_client.text_completion(prompt="This is indeed a test", max_tokens=50)
 ```
 
 ## Contributing
@@ -195,7 +196,10 @@ Contributions are welcome! Please check out the todos below, and feel free to op
   - [ ] more
 - [ ] Add contributing guidelines
 - [ ] Create an easy way to run multiple LLMs in parallel with the same prompts
-- [ ] Convert common models parameter (e.g. temperature, max_tokens, etc.)
+- [x] Convert common models parameter
+  - [x] temperature 
+  - [x] max_tokens
+  - [ ] more
 
 ### Development
 To install the package in development mode, run the following command:

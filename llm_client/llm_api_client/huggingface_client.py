@@ -23,7 +23,7 @@ class HuggingFaceClient(BaseLLMAPIClient):
             self._default_model = DEFAULT_MODEL
         self._headers[AUTH_HEADER] = BEARER_TOKEN + self._api_key
 
-    async def text_completion(self, prompt: str, max_tokens: int = None, temperature: float = 1.0,
+    async def text_completion(self, prompt: str, max_tokens: int | None = None, temperature: float = 1.0,
                               model: str | None = None, **kwargs) -> list[str]:
         model = model or self._default_model
         kwargs[INPUT_KEY] = prompt

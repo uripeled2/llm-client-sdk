@@ -20,7 +20,7 @@ class AnthropicClient(BaseLLMAPIClient):
         self._headers[ACCEPT_HEADER] = ACCEPT_VALUE
         self._headers[AUTH_HEADER] = self._api_key
 
-    async def text_completion(self, prompt: str, model: str | None = None, max_tokens: int = None, temperature: float = 0,
+    async def text_completion(self, prompt: str, model: str | None = None, max_tokens: int | None = None, temperature: float = 0,
                               **kwargs) -> \
             list[str]:
         if max_tokens is None:
