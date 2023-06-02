@@ -16,9 +16,10 @@ def test_get_llm_api_client__without_context_manager():
                          [(LLMAPIClientType.OPEN_AI, "OpenAIClient"), (LLMAPIClientType.AI21, "AI21Client"),
                           (LLMAPIClientType.HUGGING_FACE, "HuggingFaceClient"),
                           (LLMAPIClientType.ALEPH_ALPHA, "AlephAlphaClient"),
-                          (LLMAPIClientType.ANTHROPIC, "AnthropicClient")])
+                          (LLMAPIClientType.ANTHROPIC, "AnthropicClient"),
+                          (LLMAPIClientType.GOOGLE, "GoogleClient")])
 async def test_get_llm_api_client__with_client_type(client_type, client_patch):
-    assert len(LLMAPIClientType) == 5
+    assert len(LLMAPIClientType) == 6
 
     llm_api_client_factory = LLMAPIClientFactory()
     async with llm_api_client_factory:
