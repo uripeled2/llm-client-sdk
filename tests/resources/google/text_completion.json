@@ -1,0 +1,17 @@
+{
+  "candidates": [
+    {
+      "output": "Once upon a time, there was a young girl named Lily...",
+      "safetyRatings": [
+        {
+          "category": "HARM_CATEGORY_DEROGATORY",
+          "probability": "NEGLIGIBLE"
+        }
+      ]
+    },
+    {
+      "output": "Once upon a time, there was a young boy named Billy...",
+      "safetyRatings": []
+    }
+  ]
+}

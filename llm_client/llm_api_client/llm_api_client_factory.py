@@ -11,6 +11,7 @@ class LLMAPIClientType(Enum):
     HUGGING_FACE = "HUGGING_FACE"
     ALEPH_ALPHA = "AlephAlpha"
     ANTHROPIC = "ANTHROPIC"
+    GOOGLE = "GOOGLE"
 
 
 class LLMAPIClientFactory:
@@ -43,5 +44,8 @@ class LLMAPIClientFactory:
         elif llm_api_client_type == LLMAPIClientType.ANTHROPIC:
             from llm_client import AnthropicClient
             return AnthropicClient(config)
+        elif llm_api_client_type == LLMAPIClientType.GOOGLE:
+            from llm_client import GoogleClient
+            return GoogleClient(config)
         else:
             raise ValueError("Unknown LLM client type")

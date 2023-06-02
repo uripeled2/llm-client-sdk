@@ -1,0 +1,14 @@
+{
+  "candidates": [
+    {
+      "author": "1",
+      "content": "Hi there! How can I help you today?"
+    }
+  ],
+  "messages": [
+    {
+      "author": "0",
+      "content": "hi"
+    }
+  ]
+}
