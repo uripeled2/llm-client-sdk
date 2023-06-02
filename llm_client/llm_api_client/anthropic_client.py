@@ -23,7 +23,7 @@ class AnthropicClient(BaseLLMAPIClient):
     async def text_completion(self, prompt: str, model: str | None = None, max_tokens: int | None = None, temperature: float = 0,
                               **kwargs) -> \
             list[str]:
-        if max_tokens is None:
+        if max_tokens is None and kwargs["max_tokens_to_sample"] is None:
             raise ValueError("max_tokens must be specified")
         self._set_model_in_kwargs(kwargs, model)
         kwargs[PROMPT_KEY] = prompt

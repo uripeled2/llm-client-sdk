@@ -31,7 +31,7 @@ class AlephAlphaClient(BaseLLMAPIClient):
             raise ValueError("max_tokens must be specified")
         kwargs[PROMPT_KEY] = prompt
         kwargs["maximum_tokens"] = kwargs.pop("maximum_tokens", max_tokens)
-        kwargs["temperature"] = kwargs.pop("temperature", max_tokens)
+        kwargs["temperature"]  = temperature
         response = await self._session.post(self._base_url + COMPLETE_PATH,
                                             json=kwargs,
                                             headers=self._headers,
