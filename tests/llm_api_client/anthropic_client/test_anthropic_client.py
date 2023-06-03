@@ -31,13 +31,13 @@ async def test_text_completion__sanity(mock_aioresponse, llm_client, complete_ur
                                              headers={AUTH_HEADER: llm_client._api_key,
                                                       ACCEPT_HEADER: ACCEPT_VALUE},
                                              json={PROMPT_KEY: 'These are a few of my favorite',
-                                                   MAX_TOKENS_KEY: 10,"temperature" : 1,
+                                                   MAX_TOKENS_KEY: 10, "temperature": 1,
                                                    MODEL_KEY: llm_client._default_model},
                                              raise_for_status=True)
 
 
 @pytest.mark.asyncio
-async def test_text_completion__without_max_tokens_raise_value_error(mock_aioresponse, llm_client,complete_url):
+async def test_text_completion__without_max_tokens_raise_value_error(mock_aioresponse, llm_client):
     with pytest.raises(ValueError):
         await llm_client.text_completion(prompt="These are a few of my favorite")
 
@@ -58,7 +58,7 @@ async def test_text_completion__override_model(mock_aioresponse, llm_client, com
                                              headers={AUTH_HEADER: llm_client._api_key,
                                                       ACCEPT_HEADER: ACCEPT_VALUE},
                                              json={PROMPT_KEY: 'These are a few of my favorite',
-                                                   MAX_TOKENS_KEY: 10,"temperature" : 1,
+                                                   MAX_TOKENS_KEY: 10, "temperature": 1,
                                                    MODEL_KEY: new_model_name},
                                              raise_for_status=True)
 

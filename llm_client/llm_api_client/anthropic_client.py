@@ -23,11 +23,11 @@ class AnthropicClient(BaseLLMAPIClient):
     async def text_completion(self, prompt: str, model: str | None = None, max_tokens: int | None = None, temperature: float = 1,
                               **kwargs) -> \
             list[str]:
-        if max_tokens is None and ("max_tokens_to_sample" not in kwargs.keys() or kwargs["max_tokens_to_sample"] is None) :
-            raise ValueError("max_tokens must be specified")
+        if max_tokens is None and kwargs.get(MAX_TOKENS_KEY) is None:
+            raise ValueError(f"max_tokens or {MAX_TOKENS_KEY} must be specified")
         self._set_model_in_kwargs(kwargs, model)
         kwargs[PROMPT_KEY] = prompt
-        kwargs["max_tokens_to_sample"] = kwargs.pop("max_tokens_to_sample", max_tokens)
+        kwargs[MAX_TOKENS_KEY] = kwargs.pop(MAX_TOKENS_KEY, max_tokens)
         kwargs["temperature"] = temperature
         response = await self._session.post(self._base_url + COMPLETE_PATH,
                                             json=kwargs,
