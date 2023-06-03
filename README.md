@@ -187,10 +187,11 @@ Contributions are welcome! Please check out the todos below, and feel free to op
 
 - [x] Add support for more LLMs
   - [x] Anthropic
+  - [x] Google
   - [ ] Cohere
-  - [ ] Google
 - [x] Add support for more functions via LLMs 
   - [x] embeddings
+  - [ ] chat
   - [ ] list models
   - [ ] edits
   - [ ] more
