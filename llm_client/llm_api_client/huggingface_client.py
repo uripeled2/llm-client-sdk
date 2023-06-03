@@ -12,6 +12,8 @@ DEFAULT_MODEL = "oasst-sft-4-pythia-12b-epoch-3.5"
 CONST_SLASH = '/'
 EMPTY_STR = ''
 NEWLINE = '\n'
+TEMPERATURE_KEY = "temperature"
+TOKENS_KEY = "max_length"
 
 
 class HuggingFaceClient(BaseLLMAPIClient):
@@ -23,9 +25,12 @@ class HuggingFaceClient(BaseLLMAPIClient):
             self._default_model = DEFAULT_MODEL
         self._headers[AUTH_HEADER] = BEARER_TOKEN + self._api_key
 
-    async def text_completion(self, prompt: str, model: str | None = None, **kwargs) -> list[str]:
+    async def text_completion(self, prompt: str, max_tokens: int | None = None, temperature: float = 1.0,
+                              model: str | None = None, **kwargs) -> list[str]:
         model = model or self._default_model
         kwargs[INPUT_KEY] = prompt
+        kwargs[TEMPERATURE_KEY] = temperature
+        kwargs[TOKENS_KEY] = kwargs.pop(TOKENS_KEY, max_tokens)
         response = await self._session.post(self._base_url + model + CONST_SLASH,
                                             json=kwargs,
                                             headers=self._headers,

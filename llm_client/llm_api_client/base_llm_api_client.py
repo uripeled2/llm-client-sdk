@@ -29,7 +29,8 @@ class BaseLLMAPIClient(BaseLLMClient, ABC):
         self._headers: dict[str, str] = config.headers
 
     @abstractmethod
-    async def text_completion(self, prompt: str, model: str | None = None, **kwargs) -> list[str]:
+    async def text_completion(self, prompt: str, model: str | None = None, max_tokens: int | None = None,
+                              temperature: float | None = None, **kwargs) -> list[str]:
         raise NotImplementedError()
 
     async def embedding(self, text: str, model: str | None = None, **kwargs) -> list[float]:

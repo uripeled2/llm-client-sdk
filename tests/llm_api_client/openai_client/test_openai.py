@@ -37,7 +37,7 @@ async def test_text_completion__sanity(openai_mock, open_ai_client, model_name):
     openai_mock.Completion.acreate.assert_awaited_once_with(
         model=model_name,
         prompt="These are a few of my favorite",
-        headers={})
+        headers={},temperature=0,max_tokens=16)
 
 
 @pytest.mark.asyncio
@@ -52,7 +52,7 @@ async def test_text_completion__return_multiple_completions(openai_mock, open_ai
     openai_mock.Completion.acreate.assert_awaited_once_with(
         model=model_name,
         prompt="These are a few of my favorite",
-        headers={})
+        headers={},temperature=0,max_tokens=16)
 
 
 @pytest.mark.asyncio
@@ -67,7 +67,7 @@ async def test_text_completion__override_model(openai_mock, open_ai_client, mode
     openai_mock.Completion.acreate.assert_awaited_once_with(
         model=new_model_name,
         prompt="These are a few of my favorite",
-        headers={})
+        headers={},temperature=0,max_tokens=16)
 
 
 @pytest.mark.asyncio
@@ -81,7 +81,7 @@ async def test_text_completion__with_kwargs(openai_mock, open_ai_client, model_n
     openai_mock.Completion.acreate.assert_awaited_once_with(
         model=model_name,
         prompt="These are a few of my favorite",
-        max_tokens=10,
+        temperature=0,max_tokens=10,
         headers={})
 
 
@@ -98,7 +98,7 @@ async def test_text_completion__with_headers(openai_mock, model_name):
     openai_mock.Completion.acreate.assert_awaited_once_with(
         model=model_name,
         prompt="These are a few of my favorite",
-        headers={"header_name": "header_value"})
+        headers={"header_name": "header_value"},temperature=0,max_tokens=16)
 
 
 @pytest.mark.asyncio
@@ -112,7 +112,7 @@ async def test_chat_completion__sanity(openai_mock, open_ai_client, model_name):
     openai_mock.ChatCompletion.acreate.assert_awaited_once_with(
         model=model_name,
         messages=[{'content': 'Hello!', 'role': 'user'}],
-        headers={})
+        headers={},temperature=0,max_tokens=16)
 
 
 @pytest.mark.asyncio
@@ -127,7 +127,7 @@ async def test_chat_completion__return_multiple_completions(openai_mock, open_ai
     openai_mock.ChatCompletion.acreate.assert_awaited_once_with(
         model=model_name,
         messages=[{'content': 'Hello!', 'role': 'user'}],
-        headers={})
+        headers={},temperature=0,max_tokens=16)
 
 
 @pytest.mark.asyncio
@@ -142,7 +142,7 @@ async def test_chat_completion__override_model(openai_mock, open_ai_client, mode
     openai_mock.ChatCompletion.acreate.assert_awaited_once_with(
         model=new_model_name,
         messages=[{'content': 'Hello!', 'role': 'user'}],
-        headers={})
+        headers={},temperature=0,max_tokens=16)
 
 
 @pytest.mark.asyncio
@@ -157,7 +157,7 @@ async def test_chat_completion__with_kwargs(openai_mock, open_ai_client, model_n
         model=model_name,
         messages=[{'content': 'Hello!', 'role': 'user'}],
         max_tokens=10,
-        headers={})
+        headers={},temperature=0)
 
 
 @pytest.mark.asyncio
@@ -173,7 +173,7 @@ async def test_chat_completion__with_headers(openai_mock, model_name):
     openai_mock.ChatCompletion.acreate.assert_awaited_once_with(
         model=model_name,
         messages=[{'content': 'Hello!', 'role': 'user'}],
-        headers={"header_name": "header_value"})
+        headers={"header_name": "header_value"},temperature=0,max_tokens=16)
 
 
 @pytest.mark.asyncio

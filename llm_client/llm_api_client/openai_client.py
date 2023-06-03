@@ -35,15 +35,21 @@ class OpenAIClient(BaseLLMAPIClient):
         openai.aiosession.set(self._session)
         self._client = openai
 
-    async def text_completion(self, prompt: str, model: str | None = None, **kwargs) -> list[str]:
+    async def text_completion(self, prompt: str, model: str | None = None,temperature: float = 0,
+        max_tokens: int = 16 , **kwargs) -> list[str]:
         self._set_model_in_kwargs(kwargs, model)
         kwargs[PROMPT_KEY] = prompt
+        kwargs["temperature"] = temperature
+        kwargs["max_tokens"] = max_tokens
         completions = await self._client.Completion.acreate(headers=self._headers, **kwargs)
         return [choice.text for choice in completions.choices]
 
-    async def chat_completion(self, messages: list[ChatMessage], model: str | None = None, **kwargs) -> list[str]:
+    async def chat_completion(self, messages: list[ChatMessage],  temperature: float = 0,
+        max_tokens: int = 16 ,model: str | None = None, **kwargs) -> list[str]:
         self._set_model_in_kwargs(kwargs, model)
         kwargs["messages"] = [message.to_dict() for message in messages]
+        kwargs["temperature"] = temperature
+        kwargs["max_tokens"] = max_tokens
         completions = await self._client.ChatCompletion.acreate(headers=self._headers, **kwargs)
         return [choice.message.content for choice in completions.choices]
 

@@ -3,7 +3,6 @@ from anthropic import count_tokens
 from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
 from llm_client.consts import PROMPT_KEY
 
-
 COMPLETE_PATH = "complete"
 BASE_URL = "https://api.anthropic.com/v1/"
 COMPLETIONS_KEY = "completion"
@@ -21,13 +20,15 @@ class AnthropicClient(BaseLLMAPIClient):
         self._headers[ACCEPT_HEADER] = ACCEPT_VALUE
         self._headers[AUTH_HEADER] = self._api_key
 
-    async def text_completion(self, prompt: str, model: str | None = None, max_tokens: int | None = None, **kwargs) ->\
+    async def text_completion(self, prompt: str, model: str | None = None, max_tokens: int | None = None, temperature: float = 1,
+                              **kwargs) -> \
             list[str]:
-        if max_tokens is None:
-            raise ValueError("max_tokens must be specified")
+        if max_tokens is None and kwargs.get(MAX_TOKENS_KEY) is None:
+            raise ValueError(f"max_tokens or {MAX_TOKENS_KEY} must be specified")
         self._set_model_in_kwargs(kwargs, model)
         kwargs[PROMPT_KEY] = prompt
-        kwargs[MAX_TOKENS_KEY] = max_tokens
+        kwargs[MAX_TOKENS_KEY] = kwargs.pop(MAX_TOKENS_KEY, max_tokens)
+        kwargs["temperature"] = temperature
         response = await self._session.post(self._base_url + COMPLETE_PATH,
                                             json=kwargs,
                                             headers=self._headers,
