@@ -1,4 +1,4 @@
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 from llm_client.base_llm_client import BaseLLMClient
 
@@ -10,6 +10,7 @@ try:
     try:
         from llm_client.llm_api_client.ai21_client import AI21Client
         from llm_client.llm_api_client.aleph_alpha_client import AlephAlphaClient
+        from llm_client.llm_api_client.google_client import GoogleClient, MessagePrompt
     except ImportError:
         pass
     # load apis with different dependencies

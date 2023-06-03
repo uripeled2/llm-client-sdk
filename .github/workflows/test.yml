@@ -38,7 +38,7 @@ jobs:
             pytest tests/llm_api_client
             ;;
           base-api)
-            pytest tests/llm_api_client/ai21_client
+            pytest tests/llm_api_client/ai21_client tests/llm_api_client/google_client
             ;;
           local)
             pytest tests/llm_client/local_client

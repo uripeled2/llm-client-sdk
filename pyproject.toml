@@ -44,8 +44,11 @@ huggingface = [
 anthropic = [
     "anthropic >= 0.2.0"
 ]
+google = [
+    "google-generativeai >= 0.1.0"
+]
 api = [
-    "llm-client[openai,huggingface,anthropic]"
+    "llm-client[openai,huggingface,anthropic,google]"
 ]
 local = [
     "transformers >= 4.0.0"

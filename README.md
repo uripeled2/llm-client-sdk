@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/github/license/uripeled2/llm-client-sdk.svg)](https://opensource.org/licenses/MIT)
 
 LLM-Client-SDK is an SDK for communicating with generative AI large language models
-(We currently support - OpenAI, AI21, HuggingfaceHub, Aleph Alpha, Anthropic,
+(We currently support - OpenAI, Google, AI21, HuggingfaceHub, Aleph Alpha, Anthropic,
 Local models with transformers - and many more soon).
 
 Our vision is to provide async native and production ready SDK while creating 
@@ -187,10 +187,11 @@ Contributions are welcome! Please check out the todos below, and feel free to op
 
 - [x] Add support for more LLMs
   - [x] Anthropic
+  - [x] Google
   - [ ] Cohere
-  - [ ] Google
 - [x] Add support for more functions via LLMs 
   - [x] embeddings
+  - [ ] chat
   - [ ] list models
   - [ ] edits
   - [ ] more
