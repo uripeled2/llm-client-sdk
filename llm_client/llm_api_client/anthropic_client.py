@@ -1,3 +1,5 @@
+from typing import Optional
+
 from anthropic import count_tokens
 
 from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
@@ -20,7 +22,8 @@ class AnthropicClient(BaseLLMAPIClient):
         self._headers[ACCEPT_HEADER] = ACCEPT_VALUE
         self._headers[AUTH_HEADER] = self._api_key
 
-    async def text_completion(self, prompt: str, model: str | None = None, max_tokens: int | None = None, temperature: float = 1,
+    async def text_completion(self, prompt: str, model: Optional[str] = None, max_tokens: Optional[int] = None,
+                              temperature: float = 1,
                               **kwargs) -> \
             list[str]:
         if max_tokens is None and kwargs.get(MAX_TOKENS_KEY) is None:

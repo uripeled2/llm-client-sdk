@@ -18,7 +18,7 @@ and we will add a standardized for LLMs param like max_tokens, temperature, etc.
 ```python
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Optional
 from aiohttp import ClientSession
 
 
@@ -36,8 +36,8 @@ class BaseLLMClient(ABC):
 class LLMAPIClientConfig:
     api_key: str
     session: ClientSession
-    base_url: str | None = None
-    default_model: str | None = None
+    base_url: Optional[str] = None
+    default_model: Optional[str] = None
     headers: dict[str, Any] = field(default_factory=dict)
 
 
@@ -46,17 +46,17 @@ class BaseLLMAPIClient(BaseLLMClient, ABC):
         ...
 
     @abstractmethod
-    async def text_completion(self, prompt: str, model: str | None = None, max_tokens: int | None = None,
-                              temperature: float | None = None, **kwargs) -> list[str]:
+    async def text_completion(self, prompt: str, model: Optional[str] = None, max_tokens: int | None = None,
+                              temperature: Optional[float] = None, **kwargs) -> list[str]:
         raise NotImplementedError()
 
-    async def embedding(self, text: str, model: str | None = None, **kwargs) -> list[float]:
+    async def embedding(self, text: str, model: Optional[str] = None, **kwargs) -> list[float]:
         raise NotImplementedError()
 ```
 
 ## Requirements
 
-Python 3.10+
+Python 3.9+
 
 ## Installation
 If you are worried about the size of the package you can install only the clients you need,
@@ -195,7 +195,7 @@ Contributions are welcome! Please check out the todos below, and feel free to op
   - [ ] list models
   - [ ] edits
   - [ ] more
-- [ ] Add contributing guidelines
+- [ ] Add contributing guidelines and linter
 - [ ] Create an easy way to run multiple LLMs in parallel with the same prompts
 - [x] Convert common models parameter
   - [x] temperature 

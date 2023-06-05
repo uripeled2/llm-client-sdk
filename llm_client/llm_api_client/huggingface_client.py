@@ -1,5 +1,8 @@
-from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
+from typing import Optional
+
 from transformers import AutoTokenizer
+
+from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
 
 DEFAULT_DIR = "OpenAssistant"
 BASE_URL = f"https://api-inference.huggingface.co/models/{DEFAULT_DIR}/"
@@ -25,8 +28,8 @@ class HuggingFaceClient(BaseLLMAPIClient):
             self._default_model = DEFAULT_MODEL
         self._headers[AUTH_HEADER] = BEARER_TOKEN + self._api_key
 
-    async def text_completion(self, prompt: str, max_tokens: int | None = None, temperature: float = 1.0,
-                              model: str | None = None, **kwargs) -> list[str]:
+    async def text_completion(self, prompt: str, max_tokens: Optional[int] = None, temperature: float = 1.0,
+                              model: Optional[str] = None, **kwargs) -> list[str]:
         model = model or self._default_model
         kwargs[INPUT_KEY] = prompt
         kwargs[TEMPERATURE_KEY] = temperature

@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Optional
 
 try:
     from google.ai.generativelanguage_v1beta2 import MessagePrompt
@@ -32,8 +32,8 @@ class GoogleClient(BaseLLMAPIClient):
             self._base_url = BASE_URL
         self._params = {AUTH_PARAM: self._api_key}
 
-    async def text_completion(self, prompt: str, model: str | None = None, max_tokens: int | None = 64,
-                              temperature: float | None = None, **kwargs) -> list[str]:
+    async def text_completion(self, prompt: str, model: Optional[str] = None, max_tokens: Optional[int] = 64,
+                              temperature: Optional[float] = None, **kwargs) -> list[str]:
         model = model or self._default_model
         kwargs[PROMPT_KEY] = {TEXT_KEY: prompt}
         kwargs[MAX_TOKENS_KEY] = kwargs.pop(MAX_TOKENS_KEY, max_tokens)
@@ -47,7 +47,7 @@ class GoogleClient(BaseLLMAPIClient):
         completions = response_json[COMPLETIONS_KEY]
         return [completion[COMPLETIONS_OUTPUT_KEY] for completion in completions]
 
-    async def embedding(self, text: str, model: str | None = None, **kwargs) -> list[float]:
+    async def embedding(self, text: str, model: Optional[str] = None, **kwargs) -> list[float]:
         model = model or self._default_model
         response = await self._session.post(self._base_url + model + ":" + EMBEDDING_PATH,
                                             params=self._params,
@@ -57,14 +57,14 @@ class GoogleClient(BaseLLMAPIClient):
         response_json = await response.json()
         return response_json[EMBEDDING_KEY][EMBEDDING_VALUE_KEY]
 
-    async def get_tokens_count(self, text: str, model: str | None = None,
-                               messages: MessagePrompt | None = None, **kwargs) -> int:
+    async def get_tokens_count(self, text: str, model: Optional[str] = None,
+                               messages: Optional[MessagePrompt] = None, **kwargs) -> int:
         """
         Retrieves the count of tokens in the given text using the specified model or the default_model.
 
         :param text: (str) The input text to tokenize and count the tokens. If the keyword argument `${MESSAGES_KEY}` \
                        is provided, this parameter will be ignored.
-        :param model: (str | None, optional) The name of the model to use for tokenization. If not provided,
+        :param model: (Optional[str], optional) The name of the model to use for tokenization. If not provided,
                        the default model will be used. Defaults to `None`.
         :param messages: (MessagePrompt | None, optional) The messages to tokenize and count the tokens. If provided,
                             the `text` parameter will be ignored.
