@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "llm-client"
 description = "SDK for using LLM"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 license = "MIT"
 authors = [
     { name = "Uri Peled", email = "uripeled2@gmail.com" },
@@ -16,6 +16,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]

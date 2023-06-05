@@ -36,8 +36,8 @@ class BaseLLMClient(ABC):
 class LLMAPIClientConfig:
     api_key: str
     session: ClientSession
-    base_url: str | None = None
-    default_model: str | None = None
+    base_url: Optional[str] = None
+    default_model: Optional[str] = None
     headers: dict[str, Any] = field(default_factory=dict)
 
 
@@ -46,11 +46,11 @@ class BaseLLMAPIClient(BaseLLMClient, ABC):
         ...
 
     @abstractmethod
-    async def text_completion(self, prompt: str, model: str | None = None, max_tokens: int | None = None,
-                              temperature: float | None = None, **kwargs) -> list[str]:
+    async def text_completion(self, prompt: str, model: Optional[str] = None, max_tokens: Optional[int] = None,
+                              temperature: Optional[float] = None, **kwargs) -> list[str]:
         raise NotImplementedError()
 
-    async def embedding(self, text: str, model: str | None = None, **kwargs) -> list[float]:
+    async def embedding(self, text: str, model: Optional[str] = None, **kwargs) -> list[float]:
         raise NotImplementedError()
 ```
 
