@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from enum import Enum
 from functools import lru_cache
-
+from typing import Optional
 import openai
 import tiktoken
 from dataclasses_json import dataclass_json, config
@@ -25,7 +25,7 @@ class Role(Enum):
 class ChatMessage:
     role: Role = field(metadata=config(encoder=lambda role: role.value, decoder=Role))
     content: str
-    name: str | None = field(default=None, metadata=config(exclude=lambda name: name is None))
+    name: Optional[str] = field(default=None, metadata=config(exclude=lambda name: name is None))
 
 
 class OpenAIClient(BaseLLMAPIClient):
@@ -35,7 +35,7 @@ class OpenAIClient(BaseLLMAPIClient):
         openai.aiosession.set(self._session)
         self._client = openai
 
-    async def text_completion(self, prompt: str, model: str | None = None,temperature: float = 0,
+    async def text_completion(self, prompt: str, model: Optional[str] = None,temperature: float = 0,
         max_tokens: int = 16 , **kwargs) -> list[str]:
         self._set_model_in_kwargs(kwargs, model)
         kwargs[PROMPT_KEY] = prompt
@@ -45,7 +45,7 @@ class OpenAIClient(BaseLLMAPIClient):
         return [choice.text for choice in completions.choices]
 
     async def chat_completion(self, messages: list[ChatMessage],  temperature: float = 0,
-        max_tokens: int = 16 ,model: str | None = None, **kwargs) -> list[str]:
+        max_tokens: int = 16 ,model: Optional[str] = None, **kwargs) -> list[str]:
         self._set_model_in_kwargs(kwargs, model)
         kwargs["messages"] = [message.to_dict() for message in messages]
         kwargs["temperature"] = temperature
@@ -53,13 +53,13 @@ class OpenAIClient(BaseLLMAPIClient):
         completions = await self._client.ChatCompletion.acreate(headers=self._headers, **kwargs)
         return [choice.message.content for choice in completions.choices]
 
-    async def embedding(self, text: str, model: str | None = None, **kwargs) -> list[float]:
+    async def embedding(self, text: str, model: Optional[str] = None, **kwargs) -> list[float]:
         self._set_model_in_kwargs(kwargs, model)
         kwargs[INPUT_KEY] = text
         embeddings = await openai.Embedding.acreate(**kwargs)
         return embeddings.data[0].embedding
 
-    async def get_tokens_count(self, text: str, model: str | None = None, **kwargs) -> int:
+    async def get_tokens_count(self, text: str, model: Optional[str] = None, **kwargs) -> int:
         if model is None:
             model = self._default_model
         return len(self._get_relevant_tokeniser(model).encode(text))

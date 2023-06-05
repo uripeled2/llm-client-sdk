@@ -2,6 +2,7 @@ import pytest
 
 from llm_client.llm_api_client.google_client import GoogleClient, BASE_URL, AUTH_PARAM
 from llm_client.llm_api_client.base_llm_api_client import LLMAPIClientConfig, BaseLLMAPIClient
+from typing import Optional
 
 
 @pytest.fixture
@@ -24,6 +25,6 @@ def params(llm_client):
     return "?" + AUTH_PARAM + "=" + llm_client._api_key
 
 
-def build_url(llm_client: BaseLLMAPIClient, path: str, model: str | None = None) -> str:
+def build_url(llm_client: BaseLLMAPIClient, path: str, model: Optional[str] = None) -> str:
     model = model or llm_client._default_model
     return BASE_URL + model + ":" + path

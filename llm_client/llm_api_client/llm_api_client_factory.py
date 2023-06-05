@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Optional
 
 from aiohttp import ClientSession
 
@@ -16,7 +17,7 @@ class LLMAPIClientType(Enum):
 
 class LLMAPIClientFactory:
     def __init__(self):
-        self._client_session: ClientSession | None = None
+        self._client_session: Optional[ClientSession]  = None
 
     async def __aenter__(self):
         self._client_session = ClientSession()
