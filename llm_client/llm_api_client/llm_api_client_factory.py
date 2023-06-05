@@ -17,7 +17,7 @@ class LLMAPIClientType(Enum):
 
 class LLMAPIClientFactory:
     def __init__(self):
-        self._client_session: Optional[ClientSession]  = None
+        self._client_session: Optional[ClientSession] = None
 
     async def __aenter__(self):
         self._client_session = ClientSession()

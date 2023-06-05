@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from functools import lru_cache
 from typing import Optional
+
 import openai
 import tiktoken
 from dataclasses_json import dataclass_json, config
@@ -9,7 +10,6 @@ from tiktoken import Encoding
 
 from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
 from llm_client.consts import PROMPT_KEY
-
 
 INPUT_KEY = "input"
 
@@ -35,8 +35,8 @@ class OpenAIClient(BaseLLMAPIClient):
         openai.aiosession.set(self._session)
         self._client = openai
 
-    async def text_completion(self, prompt: str, model: Optional[str] = None,temperature: float = 0,
-        max_tokens: int = 16 , **kwargs) -> list[str]:
+    async def text_completion(self, prompt: str, model: Optional[str] = None, temperature: float = 0,
+                              max_tokens: int = 16, **kwargs) -> list[str]:
         self._set_model_in_kwargs(kwargs, model)
         kwargs[PROMPT_KEY] = prompt
         kwargs["temperature"] = temperature
@@ -44,8 +44,8 @@ class OpenAIClient(BaseLLMAPIClient):
         completions = await self._client.Completion.acreate(headers=self._headers, **kwargs)
         return [choice.text for choice in completions.choices]
 
-    async def chat_completion(self, messages: list[ChatMessage],  temperature: float = 0,
-        max_tokens: int = 16 ,model: Optional[str] = None, **kwargs) -> list[str]:
+    async def chat_completion(self, messages: list[ChatMessage], temperature: float = 0,
+                              max_tokens: int = 16, model: Optional[str] = None, **kwargs) -> list[str]:
         self._set_model_in_kwargs(kwargs, model)
         kwargs["messages"] = [message.to_dict() for message in messages]
         kwargs["temperature"] = temperature

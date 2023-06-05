@@ -1,5 +1,4 @@
-from typing import Any
-from typing import Optional
+from typing import Any, Optional
 
 try:
     from google.ai.generativelanguage_v1beta2 import MessagePrompt

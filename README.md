@@ -18,7 +18,7 @@ and we will add a standardized for LLMs param like max_tokens, temperature, etc.
 ```python
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, Optional
 from aiohttp import ClientSession
 
 
@@ -56,7 +56,7 @@ class BaseLLMAPIClient(BaseLLMClient, ABC):
 
 ## Requirements
 
-Python 3.10+
+Python 3.9+
 
 ## Installation
 If you are worried about the size of the package you can install only the clients you need,
@@ -195,7 +195,7 @@ Contributions are welcome! Please check out the todos below, and feel free to op
   - [ ] list models
   - [ ] edits
   - [ ] more
-- [ ] Add contributing guidelines
+- [ ] Add contributing guidelines and linter
 - [ ] Create an easy way to run multiple LLMs in parallel with the same prompts
 - [x] Convert common models parameter
   - [x] temperature 

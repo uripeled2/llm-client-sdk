@@ -1,6 +1,8 @@
-from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
-from transformers import AutoTokenizer
 from typing import Optional
+
+from transformers import AutoTokenizer
+
+from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
 
 DEFAULT_DIR = "OpenAssistant"
 BASE_URL = f"https://api-inference.huggingface.co/models/{DEFAULT_DIR}/"

@@ -1,7 +1,7 @@
-from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
-from llm_client.consts import PROMPT_KEY
 from typing import Optional
 
+from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
+from llm_client.consts import PROMPT_KEY
 
 COMPLETE_PATH = "complete"
 TOKENIZE_PATH = "tokenize"
@@ -21,7 +21,8 @@ class AI21Client(BaseLLMAPIClient):
             self._base_url = BASE_URL
         self._headers[AUTH_HEADER] = BEARER_TOKEN + self._api_key
 
-    async def text_completion(self, prompt: str, model: Optional[str] = None, max_tokens : int = 16, temperature : float = 0.7, **kwargs) -> list[str]:
+    async def text_completion(self, prompt: str, model: Optional[str] = None, max_tokens: int = 16,
+                              temperature: float = 0.7, **kwargs) -> list[str]:
         model = model or self._default_model
         kwargs[PROMPT_KEY] = prompt
         kwargs["maxTokens"] = kwargs.pop("maxTokens", max_tokens)
