@@ -128,21 +128,21 @@ OPENAI_API_KEY = os.environ["API_KEY"]
 async def main():
     async with LLMAPIClientFactory() as llm_api_client_factory:
         llm_client = llm_api_client_factory.get_llm_api_client(LLMAPIClientType.OPEN_AI,
-                                                               api_key=OPENAI_API_KEY)
+                                                               api_key=OPENAI_API_KEY,
+                                                               default_model="text-davinci-003")
 
         await llm_client.text_completion(prompt="This is indeed a test")
         await llm_client.text_completion(prompt="This is indeed a test", max_tokens=50)
 
         
 # Or if you don't want to use async
-from llm_client import SyncLLMAPIClientFactory
+from llm_client import init_sync_llm_api_client
 
-with SyncLLMAPIClientFactory() as llm_api_client_factory:
-    llm_client = llm_api_client_factory.get_llm_api_client(LLMAPIClientType.OPEN_AI,
-                                                           api_key=OPENAI_API_KEY)
+llm_client = init_sync_llm_api_client(LLMAPIClientType.OPEN_AI, api_key=OPENAI_API_KEY,
+                                      default_model="text-davinci-003")
 
-    llm_client.text_completion(prompt="This is indeed a test")
-    llm_client.text_completion(prompt="This is indeed a test", max_tokens=50)
+llm_client.text_completion(prompt="This is indeed a test")
+llm_client.text_completion(prompt="This is indeed a test", max_tokens=50)
 ```
 Local model
 ```python
