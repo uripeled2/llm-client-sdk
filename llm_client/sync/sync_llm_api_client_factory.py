@@ -13,7 +13,11 @@ def _create_new_session(f: Callable[..., Any]) -> Callable[..., Any]:
     @wraps(f)
     async def func(self, *args, **kwargs):
         self._session = ClientSession()
-        response = await f(self, *args, **kwargs)
+        try:
+            response = await f(self, *args, **kwargs)
+        except Exception as e:
+            await self._session.close()
+            raise e
         await self._session.close()
         return response
 
