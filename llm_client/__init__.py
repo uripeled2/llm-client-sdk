@@ -1,4 +1,4 @@
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 
 from llm_client.base_llm_client import BaseLLMClient
 
@@ -35,10 +35,6 @@ except ImportError:
     pass
 # load sync support
 try:
-    from llm_client.sync.get_sync_llm_client import get_sync_llm_client
-    try:
-        from llm_client.sync.sync_llm_api_client_factory import SyncLLMAPIClientFactory
-    except ImportError:
-        pass
+    from llm_client.sync.sync_llm_api_client_factory import init_sync_llm_api_client
 except ImportError:
     pass
