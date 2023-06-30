@@ -1,10 +1,9 @@
 import pytest
 
 from llm_client import LLMAPIClientFactory, LLMAPIClientType
-from llm_client.llm_api_client.anthropic_client import AnthropicClient
 from llm_client.consts import PROMPT_KEY, MODEL_KEY
 from llm_client.llm_api_client.anthropic_client import AUTH_HEADER, COMPLETIONS_KEY, MAX_TOKENS_KEY, ACCEPT_HEADER, \
-    ACCEPT_VALUE, VERSION_HEADER
+    ACCEPT_VALUE, VERSION_HEADER, AnthropicClient
 
 
 @pytest.mark.asyncio

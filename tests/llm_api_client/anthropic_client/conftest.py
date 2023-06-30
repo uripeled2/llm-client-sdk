@@ -2,8 +2,7 @@ from unittest.mock import patch, AsyncMock
 
 import pytest
 
-from llm_client import AnthropicClient
-from llm_client.llm_api_client.anthropic_client import BASE_URL, COMPLETE_PATH, VERSION_HEADER
+from llm_client.llm_api_client.anthropic_client import BASE_URL, COMPLETE_PATH, VERSION_HEADER, AnthropicClient
 from llm_client.llm_api_client.base_llm_api_client import LLMAPIClientConfig
 
 
