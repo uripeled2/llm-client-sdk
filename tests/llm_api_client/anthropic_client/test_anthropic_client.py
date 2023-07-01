@@ -81,7 +81,7 @@ async def test_text_completion__override_model(mock_aioresponse, llm_client, com
                                                       VERSION_HEADER: anthropic_version},
                                              json={PROMPT_KEY: 'These are a few of my favorite',
                                                    MAX_TOKENS_KEY: 10, "temperature": 1,
-                                                   MODEL_KEY: new_model_name},
+                                                   MODEL_KEY: new_model_name, "top_p" : -1},
                                              raise_for_status=True)
 
 
