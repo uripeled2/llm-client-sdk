@@ -1,6 +1,6 @@
 from typing import Optional
 
-from anthropic import count_tokens
+from anthropic import AsyncAnthropic
 
 from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
 from llm_client.consts import PROMPT_KEY
@@ -10,6 +10,7 @@ BASE_URL = "https://api.anthropic.com/v1/"
 COMPLETIONS_KEY = "completion"
 AUTH_HEADER = "x-api-key"
 ACCEPT_HEADER = "Accept"
+VERSION_HEADER = "anthropic-version"
 ACCEPT_VALUE = "application/json"
 MAX_TOKENS_KEY = "max_tokens_to_sample"
 
@@ -19,6 +20,9 @@ class AnthropicClient(BaseLLMAPIClient):
         super().__init__(config)
         if self._base_url is None:
             self._base_url = BASE_URL
+        self._anthropic = AsyncAnthropic()
+        if self._headers.get(VERSION_HEADER) is None:
+            self._headers[VERSION_HEADER] = self._anthropic.default_headers[VERSION_HEADER]
         self._headers[ACCEPT_HEADER] = ACCEPT_VALUE
         self._headers[AUTH_HEADER] = self._api_key
 
@@ -40,4 +44,4 @@ class AnthropicClient(BaseLLMAPIClient):
         return [response_json[COMPLETIONS_KEY]]
 
     async def get_tokens_count(self, text: str, **kwargs) -> int:
-        return count_tokens(text)
+        return await self._anthropic.count_tokens(text)
