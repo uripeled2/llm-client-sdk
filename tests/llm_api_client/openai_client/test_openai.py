@@ -5,8 +5,8 @@ from aiohttp import ClientSession
 from openai.openai_object import OpenAIObject
 
 from llm_client import OpenAIClient, LLMAPIClientType, LLMAPIClientFactory
-from llm_client.llm_api_client.base_llm_api_client import LLMAPIClientConfig
-from llm_client.llm_api_client.openai_client import ChatMessage, Role
+from llm_client.llm_api_client.base_llm_api_client import LLMAPIClientConfig, Role
+from llm_client.llm_api_client.openai_client import ChatMessage
 from tests.test_utils.load_json_resource import load_json_resource
 
 

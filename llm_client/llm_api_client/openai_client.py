@@ -1,31 +1,14 @@
-from dataclasses import dataclass, field
-from enum import Enum
 from functools import lru_cache
 from typing import Optional
 
 import openai
 import tiktoken
-from dataclasses_json import dataclass_json, config
 from tiktoken import Encoding
 
-from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
+from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig, ChatMessage
 from llm_client.consts import PROMPT_KEY
 
 INPUT_KEY = "input"
-
-
-class Role(Enum):
-    SYSTEM = "system"
-    USER = "user"
-    ASSISTANT = "assistant"
-
-
-@dataclass_json
-@dataclass
-class ChatMessage:
-    role: Role = field(metadata=config(encoder=lambda role: role.value, decoder=Role))
-    content: str
-    name: Optional[str] = field(default=None, metadata=config(exclude=lambda name: name is None))
 
 
 class OpenAIClient(BaseLLMAPIClient):
