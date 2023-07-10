@@ -1,10 +1,10 @@
-__version__ = "0.6.2"
+__version__ = "0.7.0"
 
 from llm_client.base_llm_client import BaseLLMClient
 
 # load api clients
 try:
-    from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig
+    from llm_client.llm_api_client.base_llm_api_client import BaseLLMAPIClient, LLMAPIClientConfig, ChatMessage, Role
     from llm_client.llm_api_client.llm_api_client_factory import LLMAPIClientFactory, LLMAPIClientType
     # load base-api clients
     try:
@@ -15,7 +15,7 @@ try:
         pass
     # load apis with different dependencies
     try:
-        from llm_client.llm_api_client.openai_client import OpenAIClient, ChatMessage, Role
+        from llm_client.llm_api_client.openai_client import OpenAIClient
     except ImportError:
         pass
     try:
