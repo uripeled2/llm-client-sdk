@@ -27,7 +27,7 @@ class AlephAlphaClient(BaseLLMAPIClient):
         self._headers[AUTH_HEADER] = BEARER_TOKEN + self._api_key
 
     async def text_completion(self, prompt: str, model: Optional[str] = None, max_tokens: Optional[int] = None,
-                              temperature: float = 0,top_p: Optional[float] = None, **kwargs) -> \
+                              temperature: float = 0,top_p: float = 0, **kwargs) -> \
             list[str]:
         self._set_model_in_kwargs(kwargs, model)
         if max_tokens is None:

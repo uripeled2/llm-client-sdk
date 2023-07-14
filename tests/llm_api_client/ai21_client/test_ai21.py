@@ -30,7 +30,7 @@ async def test_text_completion__sanity(mock_aioresponse, llm_client, url):
         'friends, entertaining family...you get the point! One of my favorite things to do is plan parties']
     mock_aioresponse.assert_called_once_with(url, method='POST',
                                              headers={AUTH_HEADER: BEARER_TOKEN + llm_client._api_key },
-                                             json={'prompt': 'These are a few of my favorite', "maxTokens" : 16, "temperature" : 0.7, "topP" : None },
+                                             json={'prompt': 'These are a few of my favorite', "maxTokens" : 16, "temperature" : 0.7, "topP" : 0 },
                                              raise_for_status=True)
 
 
@@ -49,7 +49,7 @@ async def test_text_completion__return_multiple_completions(mock_aioresponse, ll
     ]
     mock_aioresponse.assert_called_once_with(url, method='POST',
                                              headers={AUTH_HEADER: BEARER_TOKEN + llm_client._api_key},
-                                             json={'prompt': 'These are a few of my favorite', "maxTokens" : 16, "temperature" : 0.7, "topP" : None  },
+                                             json={'prompt': 'These are a few of my favorite', "maxTokens" : 16, "temperature" : 0.7, "topP" : 0  },
                                              raise_for_status=True)
 
 
@@ -69,7 +69,7 @@ async def test_text_completion__override_model(mock_aioresponse, llm_client):
         'friends, entertaining family...you get the point! One of my favorite things to do is plan parties']
     mock_aioresponse.assert_called_once_with(url, method='POST',
                                              headers={AUTH_HEADER: BEARER_TOKEN + llm_client._api_key},
-                                             json={'prompt': 'These are a few of my favorite', "maxTokens" : 16, "temperature" : 0.7, "topP" : None  },
+                                             json={'prompt': 'These are a few of my favorite', "maxTokens" : 16, "temperature" : 0.7, "topP" : 0  },
                                              raise_for_status=True)
 
 
@@ -87,7 +87,7 @@ async def test_text_completion__with_kwargs(mock_aioresponse, llm_client, url):
         'friends, entertaining family...you get the point! One of my favorite things to do is plan parties']
     mock_aioresponse.assert_called_once_with(url, method='POST',
                                              headers={AUTH_HEADER: BEARER_TOKEN + llm_client._api_key},
-                                             json={'prompt': 'These are a few of my favorite', "maxTokens" : 10, "temperature" : 0.7 ,"topP" : None},
+                                             json={'prompt': 'These are a few of my favorite', "maxTokens" : 10, "temperature" : 0.7 ,"topP" : 0},
                                              raise_for_status=True)
 
 
