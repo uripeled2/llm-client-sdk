@@ -29,7 +29,7 @@ async def test_text_completion__sanity(mock_aioresponse, llm_client, complete_ur
                                                       ACCEPT_HEADER: ACCEPT_VALUE,
                                                       VERSION_HEADER: anthropic_version},
                                              json={PROMPT_KEY: 'These are a few of my favorite',
-                                                   MAX_TOKENS_KEY: 10, "temperature": 1,"top_p" : -1,
+                                                   MAX_TOKENS_KEY: 10, "temperature": 1,
                                                    MODEL_KEY: llm_client._default_model},
                                              raise_for_status=True)
 
@@ -51,7 +51,7 @@ async def test_text_completion__with_version_header(mock_aioresponse, config, co
                                                       ACCEPT_HEADER: ACCEPT_VALUE,
                                                       VERSION_HEADER: "1.0.0"},
                                              json={PROMPT_KEY: 'These are a few of my favorite',
-                                                   MAX_TOKENS_KEY: 10, "temperature": 1,"top_p" : -1,
+                                                   MAX_TOKENS_KEY: 10, "temperature": 1,
                                                    MODEL_KEY: llm_client._default_model},
                                              raise_for_status=True)
 
@@ -80,7 +80,7 @@ async def test_text_completion__override_model(mock_aioresponse, llm_client, com
                                                       VERSION_HEADER: anthropic_version},
                                              json={PROMPT_KEY: 'These are a few of my favorite',
                                                    MAX_TOKENS_KEY: 10, "temperature": 1,
-                                                   MODEL_KEY: new_model_name, "top_p" : -1},
+                                                   MODEL_KEY: new_model_name},
                                              raise_for_status=True)
 
 
@@ -101,7 +101,7 @@ async def test_text_completion__with_kwargs(mock_aioresponse, llm_client, comple
                                              json={PROMPT_KEY: 'These are a few of my favorite',
                                                    MAX_TOKENS_KEY: 10,
                                                    MODEL_KEY: llm_client._default_model,
-                                                   "temperature": 0.5,"top_p" : -1},
+                                                   "temperature": 0.5},
                                              raise_for_status=True)
 
 
