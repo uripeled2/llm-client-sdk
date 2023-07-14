@@ -31,7 +31,7 @@ async def test_text_completion__sanity(mock_aioresponse, llm_client, params):
                       'Once upon a time, there was a young boy named Billy...']
     mock_aioresponse.assert_called_once_with(url, method='POST', params={AUTH_PARAM: llm_client._api_key},
                                              json={PROMPT_KEY: {TEXT_KEY: 'These are a few of my favorite'},
-                                                   MAX_TOKENS_KEY: 64,"topP" : 0.95,
+                                                   MAX_TOKENS_KEY: 64,
                                                    'temperature': None},
                                              headers=llm_client._headers,
                                              raise_for_status=True,
@@ -53,7 +53,7 @@ async def test_text_completion__override_model(mock_aioresponse, llm_client, par
                       'Once upon a time, there was a young boy named Billy...']
     mock_aioresponse.assert_called_once_with(url, method='POST', params={AUTH_PARAM: llm_client._api_key},
                                              json={PROMPT_KEY: {TEXT_KEY: 'These are a few of my favorite'},
-                                                   MAX_TOKENS_KEY: 64,"topP" : 0.95,
+                                                   MAX_TOKENS_KEY: 64,
                                                    'temperature': None},
                                              headers=llm_client._headers,
                                              raise_for_status=True,
@@ -68,7 +68,7 @@ async def test_text_completion__with_kwargs(mock_aioresponse, llm_client, params
         payload=load_json_resource("google/text_completion.json")
     )
 
-    actual = await llm_client.text_completion(prompt="These are a few of my favorite", max_tokens=10, blabla="aaa")
+    actual = await llm_client.text_completion(prompt="These are a few of my favorite", max_tokens=10, blabla="aaa", top_p= 0.95)
 
     assert actual == ['Once upon a time, there was a young girl named Lily...',
                       'Once upon a time, there was a young boy named Billy...']

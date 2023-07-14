@@ -91,7 +91,7 @@ async def test_text_completion__with_kwargs(mock_aioresponse, llm_client, comple
         payload={COMPLETIONS_KEY: "completion text"}
     )
 
-    actual = await llm_client.text_completion(prompt="These are a few of my favorite", max_tokens=10, temperature=0.5)
+    actual = await llm_client.text_completion(prompt="These are a few of my favorite", max_tokens=10, temperature=0.5,top_p=0.5)
 
     assert actual == ["completion text"]
     mock_aioresponse.assert_called_once_with(complete_url, method='POST',
@@ -101,7 +101,7 @@ async def test_text_completion__with_kwargs(mock_aioresponse, llm_client, comple
                                              json={PROMPT_KEY: 'These are a few of my favorite',
                                                    MAX_TOKENS_KEY: 10,
                                                    MODEL_KEY: llm_client._default_model,
-                                                   "temperature": 0.5},
+                                                   "temperature": 0.5, "top_p" : 0.5},
                                              raise_for_status=True)
 
 
