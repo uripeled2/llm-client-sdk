@@ -22,9 +22,10 @@ class AI21Client(BaseLLMAPIClient):
         self._headers[AUTH_HEADER] = BEARER_TOKEN + self._api_key
 
     async def text_completion(self, prompt: str, model: Optional[str] = None, max_tokens: int = 16,
-                              temperature: float = 0.7, **kwargs) -> list[str]:
+                              temperature: float = 0.7, top_p: float = 1,**kwargs) -> list[str]:
         model = model or self._default_model
         kwargs[PROMPT_KEY] = prompt
+        kwargs["topP"] = kwargs.pop("topP", top_p)
         kwargs["maxTokens"] = kwargs.pop("maxTokens", max_tokens)
         kwargs["temperature"] = temperature
         response = await self._session.post(self._base_url + model + "/" + COMPLETE_PATH,

@@ -68,7 +68,7 @@ async def test_text_completion__with_kwargs(mock_aioresponse, llm_client, params
         payload=load_json_resource("google/text_completion.json")
     )
 
-    actual = await llm_client.text_completion(prompt="These are a few of my favorite", max_tokens=10, blabla="aaa")
+    actual = await llm_client.text_completion(prompt="These are a few of my favorite", max_tokens=10, blabla="aaa", top_p= 0.95)
 
     assert actual == ['Once upon a time, there was a young girl named Lily...',
                       'Once upon a time, there was a young boy named Billy...']
@@ -76,7 +76,7 @@ async def test_text_completion__with_kwargs(mock_aioresponse, llm_client, params
                                              json={PROMPT_KEY: {TEXT_KEY: 'These are a few of my favorite'},
                                                    MAX_TOKENS_KEY: 10,
                                                    'temperature': None,
-                                                   'blabla': 'aaa'},
+                                                   'blabla': 'aaa',"topP" : 0.95},
                                              headers=llm_client._headers,
                                              raise_for_status=True,
                                              )
