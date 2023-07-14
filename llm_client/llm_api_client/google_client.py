@@ -37,8 +37,8 @@ class GoogleClient(BaseLLMAPIClient):
         model = model or self._default_model
         kwargs[PROMPT_KEY] = {TEXT_KEY: prompt}
         kwargs[MAX_TOKENS_KEY] = kwargs.pop(MAX_TOKENS_KEY, max_tokens)
-        if top_p or ("topP" in kwargs):
-            kwargs["topP"] = kwargs.pop("topP", top_p)
+        if top_p:
+            kwargs["topP"] = top_p
         kwargs["temperature"] = kwargs.pop("temperature", temperature)
         response = await self._session.post(self._base_url + model + ":" + COMPLETE_PATH,
                                             params=self._params,
