@@ -13,8 +13,7 @@ more details below in Usage section.
 
 ## Base Interface
 The package exposes two simple interfaces for communicating with LLMs (In the future, we 
-will expand the interface to support more tasks like embeddings, list models, edits, etc.
-and we will add a standardized for LLMs param like max_tokens, temperature, etc.):
+will expand the interface to support more tasks like list models, edits, etc.):
 ```python
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -47,7 +46,7 @@ class BaseLLMAPIClient(BaseLLMClient, ABC):
 
     @abstractmethod
     async def text_completion(self, prompt: str, model: Optional[str] = None, max_tokens: int | None = None,
-                              temperature: Optional[float] = None, **kwargs) -> list[str]:
+                              temperature: Optional[float] = None, top_p: Optional[float] = None, **kwargs) -> list[str]:
         raise NotImplementedError()
 
     async def embedding(self, text: str, model: Optional[str] = None, **kwargs) -> list[float]:
@@ -200,6 +199,7 @@ Contributions are welcome! Please check out the todos below, and feel free to op
 - [x] Convert common models parameter
   - [x] temperature 
   - [x] max_tokens
+  - [x] top_p
   - [ ] more
 
 ### Development
