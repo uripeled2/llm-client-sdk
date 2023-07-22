@@ -33,7 +33,7 @@ class AnthropicClient(BaseLLMAPIClient):
 
     async def chat_completion(self, messages: list[ChatMessage], model: Optional[str] = None,
                               max_tokens: Optional[int] = None, temperature: float = 1, **kwargs) -> list[str]:
-        return await self.text_completion(self._messages_to_prompt(messages), model, max_tokens, temperature, **kwargs)
+        return await self.text_completion(self.messages_to_text(messages), model, max_tokens, temperature, **kwargs)
 
     async def text_completion(self, prompt: str, model: Optional[str] = None, max_tokens: Optional[int] = None,
                               temperature: float = 1,
@@ -52,10 +52,13 @@ class AnthropicClient(BaseLLMAPIClient):
         response_json = await response.json()
         return [response_json[COMPLETIONS_KEY]]
 
+    async def get_chat_tokens_count(self, messages: list[ChatMessage], **kwargs) -> int:
+        return await self.get_tokens_count(self.messages_to_text(messages), **kwargs)
+
     async def get_tokens_count(self, text: str, **kwargs) -> int:
         return await self._anthropic.count_tokens(text)
 
-    def _messages_to_prompt(self, messages: list[ChatMessage]) -> str:
+    def messages_to_text(self, messages: list[ChatMessage]) -> str:
         prompt = START_PREFIX
         prompt += START_PREFIX.join(map(self._message_to_prompt, messages))
         if messages[-1].role != Role.ASSISTANT:

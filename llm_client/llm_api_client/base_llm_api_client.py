@@ -58,6 +58,9 @@ class BaseLLMAPIClient(BaseLLMClient, ABC):
     async def embedding(self, text: str, model: Optional[str] = None, **kwargs) -> list[float]:
         raise NotImplementedError()
 
+    async def get_chat_tokens_count(self, messages: list[ChatMessage], **kwargs) -> int:
+        raise NotImplementedError()
+
     def _set_model_in_kwargs(self, kwargs, model: Optional[str]) -> None:
         if model is not None:
             kwargs[MODEL_KEY] = model
