@@ -33,10 +33,12 @@ class GoogleClient(BaseLLMAPIClient):
         self._params = {AUTH_PARAM: self._api_key}
 
     async def text_completion(self, prompt: str, model: Optional[str] = None, max_tokens: Optional[int] = 64,
-                              temperature: Optional[float] = None, **kwargs) -> list[str]:
+                              temperature: Optional[float] = None,top_p: Optional[float] = None, **kwargs) -> list[str]:
         model = model or self._default_model
         kwargs[PROMPT_KEY] = {TEXT_KEY: prompt}
         kwargs[MAX_TOKENS_KEY] = kwargs.pop(MAX_TOKENS_KEY, max_tokens)
+        if top_p:
+            kwargs["topP"] = top_p
         kwargs["temperature"] = kwargs.pop("temperature", temperature)
         response = await self._session.post(self._base_url + model + ":" + COMPLETE_PATH,
                                             params=self._params,

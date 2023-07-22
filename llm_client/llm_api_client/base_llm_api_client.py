@@ -48,7 +48,7 @@ class BaseLLMAPIClient(BaseLLMClient, ABC):
 
     @abstractmethod
     async def text_completion(self, prompt: str, model: Optional[str] = None, max_tokens: Optional[int] = None,
-                              temperature: Optional[float] = None, **kwargs) -> list[str]:
+                              temperature: Optional[float] = None, top_p: Optional[float] = None, **kwargs) -> list[str]:
         raise NotImplementedError()
 
     async def chat_completion(self, messages: list[ChatMessage], temperature: float = 0,
