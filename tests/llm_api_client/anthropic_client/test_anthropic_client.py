@@ -1,9 +1,13 @@
+from unittest.mock import AsyncMock
+
 import pytest
 
-from llm_client import LLMAPIClientFactory, LLMAPIClientType
+from llm_client import LLMAPIClientFactory, LLMAPIClientType, ChatMessage
 from llm_client.consts import PROMPT_KEY, MODEL_KEY
 from llm_client.llm_api_client.anthropic_client import AUTH_HEADER, COMPLETIONS_KEY, MAX_TOKENS_KEY, ACCEPT_HEADER, \
-    ACCEPT_VALUE, VERSION_HEADER, AnthropicClient
+    ACCEPT_VALUE, VERSION_HEADER, AnthropicClient, USER_PREFIX, ASSISTANT_PREFIX, START_PREFIX, SYSTEM_START_PREFIX, \
+    SYSTEM_END_PREFIX
+from llm_client.llm_api_client.base_llm_api_client import Role
 
 
 @pytest.mark.asyncio
@@ -13,6 +17,48 @@ async def test_get_llm_api_client__with_anthropic(config):
         actual = llm_api_client_factory.get_llm_api_client(LLMAPIClientType.ANTHROPIC, **config.__dict__)
 
     assert isinstance(actual, AnthropicClient)
+
+@pytest.mark.asyncio
+async def test_chat_completion_sanity(llm_client):
+    text_completion_mock = AsyncMock(return_value=["completion text"])
+    llm_client.text_completion = text_completion_mock
+
+    actual = await llm_client.chat_completion(messages=[ChatMessage(Role.USER, "Why is the sky blue?")], max_tokens=10)
+
+    assert actual == ["completion text"]
+    text_completion_mock.assert_awaited_once_with(f"{START_PREFIX}{USER_PREFIX} Why is the sky blue?"
+                                                  f"{START_PREFIX}{ASSISTANT_PREFIX}", None, 10, 1)
+
+
+@pytest.mark.asyncio
+async def test_chat_completion_with_assistant_in_the_end(llm_client):
+    text_completion_mock = AsyncMock(return_value=["completion text"])
+    llm_client.text_completion = text_completion_mock
+
+    actual = await llm_client.chat_completion(messages=[ChatMessage(Role.USER, "Why is the sky blue?"),
+                                                        ChatMessage(Role.ASSISTANT, "Answer - ")], temperature=10)
+
+    assert actual == ["completion text"]
+    text_completion_mock.assert_awaited_once_with(f"{START_PREFIX}{USER_PREFIX} Why is the sky blue?"
+                                                  f"{START_PREFIX}{ASSISTANT_PREFIX} Answer -", None, None,
+                                                  10)
+
+
+@pytest.mark.asyncio
+async def test_chat_completion_with_system(llm_client):
+    text_completion_mock = AsyncMock(return_value=["completion text"])
+    llm_client.text_completion = text_completion_mock
+
+    actual = await llm_client.chat_completion(messages=[ChatMessage(Role.SYSTEM, "Be nice!"),
+                                                        ChatMessage(Role.USER, "Why is the sky blue?")], max_tokens=10,
+                                              temperature=2)
+
+    assert actual == ["completion text"]
+    text_completion_mock.assert_awaited_once_with(f"{START_PREFIX}{USER_PREFIX} "
+                                                  f"{SYSTEM_START_PREFIX}Be nice!{SYSTEM_END_PREFIX}{START_PREFIX}"
+                                                  f"{USER_PREFIX} Why is the sky blue?"
+                                                  f"{START_PREFIX}{ASSISTANT_PREFIX}", None, 10, 2)
+
 
 @pytest.mark.asyncio
 async def test_text_completion__sanity(mock_aioresponse, llm_client, complete_url, anthropic_version):

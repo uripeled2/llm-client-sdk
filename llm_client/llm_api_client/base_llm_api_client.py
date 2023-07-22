@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
+from enum import Enum
 from typing import Any, Optional
+
+from dataclasses_json import dataclass_json, config
 
 try:
     from aiohttp import ClientSession
@@ -9,6 +12,21 @@ except ImportError:
 
 from llm_client import BaseLLMClient
 from llm_client.consts import MODEL_KEY
+
+
+class Role(Enum):
+    SYSTEM = "system"
+    USER = "user"
+    ASSISTANT = "assistant"
+
+
+@dataclass_json
+@dataclass
+class ChatMessage:
+    role: Role = field(metadata=config(encoder=lambda role: role.value, decoder=Role))
+    content: str
+    name: Optional[str] = field(default=None, metadata=config(exclude=lambda name: name is None))
+    example: bool = field(default=False, metadata=config(exclude=lambda _: True))
 
 
 @dataclass
@@ -33,7 +51,14 @@ class BaseLLMAPIClient(BaseLLMClient, ABC):
                               temperature: Optional[float] = None, top_p: Optional[float] = None, **kwargs) -> list[str]:
         raise NotImplementedError()
 
+    async def chat_completion(self, messages: list[ChatMessage], temperature: float = 0,
+                              max_tokens: int = 16, model: Optional[str] = None, **kwargs) -> list[str]:
+        raise NotImplementedError()
+
     async def embedding(self, text: str, model: Optional[str] = None, **kwargs) -> list[float]:
+        raise NotImplementedError()
+
+    async def get_chat_tokens_count(self, messages: list[ChatMessage], **kwargs) -> int:
         raise NotImplementedError()
 
     def _set_model_in_kwargs(self, kwargs, model: Optional[str]) -> None:
