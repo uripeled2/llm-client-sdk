@@ -16,8 +16,8 @@ MODEL_NAME_TO_TOKENS_PER_MESSAGE_AND_TOKENS_PER_NAME = {
     "gpt-4-32k-0314": (3, 1),
     "gpt-4-0613": (3, 1),
     "gpt-4-32k-0613": (3, 1),
+    # every message follows <|start|>{role/name}\n{content}<|end|>\n, if there's a name, the role is omitted
     "gpt-3.5-turbo-0301": (4, -1),
-
 }
 
 
@@ -39,7 +39,8 @@ class OpenAIClient(BaseLLMAPIClient):
         return [choice.text for choice in completions.choices]
 
     async def chat_completion(self, messages: list[ChatMessage], temperature: float = 0,
-                              max_tokens: int = 16, top_p: float = 1, model: Optional[str] = None, **kwargs) -> list[str]:
+                              max_tokens: int = 16, top_p: float = 1, model: Optional[str] = None, **kwargs) \
+            -> list[str]:
         self._set_model_in_kwargs(kwargs, model)
         kwargs["messages"] = [message.to_dict() for message in messages]
         kwargs["temperature"] = temperature
@@ -58,52 +59,6 @@ class OpenAIClient(BaseLLMAPIClient):
         if model is None:
             model = self._default_model
         return len(self._get_relevant_tokeniser(model).encode(text))
-
-    # async def get_chat_tokens_count(self, messages: list[ChatMessage], model: Optional[str] = None) -> int:
-    #     try:
-    #         encoding = tiktoken.encoding_for_model(model)
-    #     except KeyError:
-    #         print("Warning: model not found. Using cl100k_base encoding.")
-    #         encoding = tiktoken.get_encoding("cl100k_base")
-    #     if model in {
-    #         "gpt-3.5-turbo-0613",
-    #         "gpt-3.5-turbo-16k-0613",
-    #         "gpt-4-0314",
-    #         "gpt-4-32k-0314",
-    #         "gpt-4-0613",
-    #         "gpt-4-32k-0613",
-    #     }:
-    #         tokens_per_message = 3
-    #         tokens_per_name = 1
-    #     elif model == "gpt-3.5-turbo-0301":
-    #         tokens_per_message = 4  # every message follows <|start|>{role/name}\n{content}<|end|>\n
-    #         tokens_per_name = -1  # if there's a name, the role is omitted
-    #     elif "gpt-3.5-turbo" in model:
-    #         print("Warning: gpt-3.5-turbo may update over time. Returning num tokens assuming gpt-3.5-turbo-0613.")
-    #         return await self.get_chat_tokens_count(messages, model="gpt-3.5-turbo-0613")
-    #     elif "gpt-4" in model:
-    #         print("Warning: gpt-4 may update over time. Returning num tokens assuming gpt-4-0613.")
-    #         return await self.get_chat_tokens_count(messages, model="gpt-4-0613")
-    #     else:
-    #         raise NotImplementedError(
-    #             f"""num_tokens_from_messages() is not implemented for model {model}. See https://github.com/openai/openai-python/blob/main/chatml.md for information on how messages are converted to tokens."""
-    #         )
-    #     num_tokens = 0
-    #     for message in messages:
-    #         num_tokens += tokens_per_message
-    #         num_tokens += len(encoding.encode(message["content"]))
-    #         num_tokens += len(encoding.encode(message["role"]))
-    #         if message.get("name"):
-    #             num_tokens += len(encoding.encode(message["name"]))
-    #             num_tokens += tokens_per_name
-    #         # print(num_tokens)
-    #         # for key, value in message.items():
-    #         #     num_tokens += len(encoding.encode(value))
-    #         #     if key == "name":
-    #         #         num_tokens += tokens_per_name
-    #         # print(num_tokens)
-    #     num_tokens += 3  # every reply is primed with <|start|>assistant<|message|>
-    #     return num_tokens
 
     async def get_chat_tokens_count(self, messages: list[ChatMessage], model: Optional[str] = None) -> int:
         """
