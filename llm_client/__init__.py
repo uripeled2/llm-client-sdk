@@ -1,4 +1,4 @@
-__version__ = "0.7.0"
+__version__ = "0.8.0"
 
 from llm_client.base_llm_client import BaseLLMClient
 
